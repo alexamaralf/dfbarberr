@@ -12,108 +12,113 @@
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
     
-    /* --- MENU MOBILE --- */
-    .mobile-header { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: var(--sidebar); border-bottom: 1px solid var(--border); z-index: 2000; align-items: center; padding: 0 20px; justify-content: space-between; }
-    .menu-toggle { font-size: 1.5rem; color: var(--gold); background: none; border: none; cursor: pointer; }
-    .mobile-logo { font-family: 'Oswald'; font-size: 1.2rem; color: white; font-weight: 700; }
-
-    /* SIDEBAR */
+    /* --- SIDEBAR & NAV --- */
     .sidebar { width: 260px; background: var(--sidebar); border-right: 1px solid #222; padding: 25px; display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; z-index: 2001; }
-    .sidebar.active { transform: translateX(0); }
-    .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 2000; backdrop-filter: blur(3px); }
+    .mobile-header { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: var(--sidebar); border-bottom: 1px solid var(--border); z-index: 2000; align-items: center; padding: 0 20px; justify-content: space-between; }
+    .menu-toggle { font-size: 1.5rem; color: var(--gold); background: none; border: none; cursor: pointer; padding: 10px; } /* Aumentado area de toque */
     
     .logo { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #333; }
-    .logo-owner { font-size: 0.7rem; letter-spacing: 1px; color: #888; text-transform: uppercase; }
-    .logo-brand { font-size: 1.6rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .logo-owner { font-size: 0.7rem; letter-spacing: 1px; color: #888; }
+    .logo-brand { font-size: 1.6rem; font-weight: 700; color: var(--gold); }
     
-    .nav-btn { background: transparent; border: none; color: #888; padding: 14px 15px; text-align: left; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 15px; width: 100%; border-radius: 8px; font-weight: 500; margin-bottom: 8px; transition: 0.2s; }
-    .nav-btn:hover, .nav-btn:active { background: rgba(255,255,255,0.05); color: white; }
-    .nav-btn.active { background: var(--gold); color: #000; font-weight: 700; box-shadow: 0 4px 15px rgba(207, 161, 68, 0.2); }
-    
-    .sidebar-footer { margin-top: auto; font-size: 0.7rem; color: #444; text-align: center; padding-top: 20px; border-top: 1px solid #222; }
-    .logout-btn { color: #ef5350; margin-top: 15px; cursor: pointer; font-weight: bold; padding: 10px; border: 1px solid #333; border-radius: 6px; display: block; text-align: center; }
+    .nav-btn { background: transparent; border: none; color: #888; padding: 14px 15px; text-align: left; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 15px; width: 100%; border-radius: 8px; margin-bottom: 8px; transition: 0.2s; }
+    .nav-btn.active { background: var(--gold); color: #000; font-weight: 700; }
+    .sidebar.active { transform: translateX(0); }
+    .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 2000; }
 
-    /* MAIN CONTENT */
-    .main { flex: 1; padding: 40px; overflow-y: auto; position: relative; background-image: radial-gradient(circle at top left, #1a1a1a 0%, #0a0a0a 40%); -webkit-overflow-scrolling: touch; }
+    /* --- MAIN --- */
+    .main { flex: 1; padding: 40px; overflow-y: auto; background-image: radial-gradient(circle at top left, #1a1a1a 0%, #0a0a0a 40%); -webkit-overflow-scrolling: touch; }
+    h1 { font-family: 'Oswald', sans-serif; color: white; margin: 0 0 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 1.4rem; flex-wrap: wrap; gap: 10px; }
     
-    h1 { font-family: 'Oswald', sans-serif; color: white; margin: 0 0 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 400; letter-spacing: 1px; font-size: 1.4rem; flex-wrap: wrap; gap: 10px; }
-    h1 div { display: flex; gap: 8px; } /* Botões do header */
+    .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); }
 
-    .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    /* --- LISTAS RESPONSIVAS (A CLASSE MÁGICA) --- */
+    .row-card { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    
+    .info-group { flex: 1; min-width: 0; margin-right: 10px; }
+    .info-title { font-weight: 700; color: white; font-size: 1rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .info-sub { color: var(--gold); font-size: 0.85rem; }
+    .info-desc { color: #666; font-size: 0.8rem; margin-top: 2px; }
 
-    /* DASHBOARD GRID */
-    .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px; }
-    .kpi-card { background: #111; border: 1px solid #333; border-radius: 10px; padding: 20px; border-left: 4px solid var(--gold); position: relative; }
-    .kpi-title { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-    .kpi-val { font-family: 'Oswald'; font-size: 1.8rem; color: white; }
-    .kpi-icon { position: absolute; right: 15px; top: 15px; font-size: 2rem; color: #222; }
-
-    /* LISTAS (AGENDA, SERVIÇOS) */
-    .agenda-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #222; align-items: center; background: #0f0f0f; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid transparent; transition: 0.2s; }
-    .agenda-item.booked { border-left-color: var(--gold); background: #181818; }
-    
-    .time-box { font-family: 'Oswald'; font-size: 1.4rem; color: white; min-width: 60px; text-align: center; line-height: 1; display: flex; flex-direction: column; justify-content: center; }
-    .time-box span { font-size: 0.65rem; font-family: 'Montserrat'; color: #555; margin-top: 4px; letter-spacing: 1px; }
-    
-    .info-box { flex: 1; min-width: 0; } /* min-width evita quebra de layout flex */
-    .client-name { font-weight: 700; color: white; font-size: 1rem; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .service-name { color: var(--gold); font-size: 0.85rem; display: block; margin-bottom: 3px; }
-    .contact-info { color: #888; font-size: 0.8rem; display: flex; flex-wrap: wrap; gap: 10px; }
-    
-    .actions-box { display: flex; gap: 8px; }
-    .btn-icon { width: 40px; height: 40px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: 0.1s; }
-    .btn-icon:active { transform: scale(0.95); }
+    .actions-box { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-icon { width: 40px; height: 40px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
     
     .btn-del { background: rgba(211, 47, 47, 0.1); color: #ef5350; border: 1px solid #ef5350; }
     .btn-edit { background: rgba(33, 150, 243, 0.1); color: #2196f3; border: 1px solid #2196f3; }
     .btn-book { background: rgba(207, 161, 68, 0.1); color: var(--gold); border: 1px solid var(--gold); }
-    .btn-whats { background: rgba(37, 211, 102, 0.1); color: #25D366; border: 1px solid #25D366; text-decoration: none; }
+    
+    /* --- AGENDA ESPECÍFICA --- */
+    .agenda-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #222; align-items: center; background: #0f0f0f; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid transparent; }
+    .agenda-item.booked { border-left-color: var(--gold); background: #181818; }
+    .time-box { font-family: 'Oswald'; font-size: 1.4rem; color: white; min-width: 60px; text-align: center; }
+    .time-box span { font-size: 0.65rem; font-family: 'Montserrat'; color: #555; display: block; }
 
-    /* BOTÕES GERAIS */
-    button.btn-p { background: var(--gold); color: black; border: none; padding: 10px 20px; cursor: pointer; font-weight: 700; font-family: 'Oswald', sans-serif; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
-    button.btn-sec { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+    /* --- DASHBOARD --- */
+    .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .kpi-card { background: #111; border: 1px solid #333; border-radius: 10px; padding: 20px; border-left: 4px solid var(--gold); position: relative; }
+    .kpi-val { font-family: 'Oswald'; font-size: 1.8rem; color: white; }
+
+    /* --- MODAL & INPUTS --- */
+    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; }
+    .modal-box { background: #141414; padding: 25px; border-radius: 12px; width: 90%; max-width: 380px; border: 1px solid #333; }
+    input, select { background: #050505; border: 1px solid #333; color: white; padding: 14px; width: 100%; margin-bottom: 12px; border-radius: 8px; font-size: 1rem; }
+    button.btn-p { background: var(--gold); color: black; border: none; padding: 12px 20px; cursor: pointer; font-weight: 700; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
     button.btn-refresh { background: transparent; border: 1px solid #444; color: #888; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; margin-left: 10px; }
 
-    /* MODAL */
-    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-    .modal-box { background: #141414; padding: 25px; border-radius: 12px; width: 90%; max-width: 380px; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.6); animation: slideUp 0.3s ease-out; }
-    @keyframes slideUp { from {transform: translateY(20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
-    
-    input, select { background: #050505; border: 1px solid #333; color: white; padding: 14px; width: 100%; margin-bottom: 12px; border-radius: 8px; font-size: 1rem; -webkit-appearance: none; }
-    input:focus, select:focus { border-color: var(--gold); outline: none; }
+    /* --- TOAST --- */
+    #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 4000; width: 90%; max-width: 350px; }
+    .toast { background: #181818; color: white; padding: 15px; border-radius: 8px; border-left: 4px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 
-    /* TOAST */
-    #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 4000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 350px; }
-    .toast { background: #181818; color: white; padding: 15px; border-radius: 8px; border-left: 4px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; font-size: 0.9rem; animation: fadeInDown 0.3s; }
-    .toast.error { border-left-color: #ef5350; }
-    @keyframes fadeInDown { from {opacity:0; transform:translateY(-20px)} to {opacity:1; transform:translateY(0)} }
-
-    /* RESPONSIVIDADE MOBILE */
+    /* --- MOBILE TWEAKS (O SEGREDO DA CORREÇÃO) --- */
     @media (max-width: 768px) {
       .mobile-header { display: flex; }
       .sidebar { position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); box-shadow: 5px 0 20px rgba(0,0,0,0.5); width: 280px; }
       .main { padding: 80px 15px 30px 15px; width: 100%; }
       
-      h1 { font-size: 1.2rem; flex-direction: column; align-items: flex-start; gap: 15px; }
-      h1 div { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
-      h1 button { flex: 1; text-align: center; justify-content: center; }
+      /* Header Wrap */
+      h1 { flex-direction: column; align-items: flex-start; gap: 15px; }
+      h1 div { width: 100%; display: flex; gap: 10px; }
+      h1 button { flex: 1; justify-content: center; }
       
-      .agenda-item { flex-direction: column; align-items: flex-start; gap: 10px; position: relative; padding-bottom: 60px; }
-      .time-box { flex-direction: row; align-items: baseline; gap: 10px; width: 100%; justify-content: flex-start; border-bottom: 1px dashed #333; padding-bottom: 8px; margin-bottom: 5px; }
-      .actions-box { position: absolute; bottom: 15px; right: 15px; width: 100%; justify-content: flex-end; }
-      .btn-icon { width: 45px; height: 45px; font-size: 1.1rem; }
+      /* Força quebra de linha nos cards para caber botões */
+      .row-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+      .actions-box { width: 100%; justify-content: flex-end; border-top: 1px solid #222; padding-top: 10px; }
+      .btn-icon { width: 48px; height: 48px; font-size: 1.1rem; } /* Botões maiores para dedo */
       
-      .kpi-card { padding: 15px; }
-      .kpi-val { font-size: 1.8rem; }
-      
-      .card { padding: 15px; }
+      /* Agenda específica */
+      .agenda-item { flex-direction: column; align-items: flex-start; position: relative; padding-bottom: 60px; }
+      .agenda-item .time-box { flex-direction: row; align-items: baseline; gap: 10px; width: 100%; justify-content: flex-start; border-bottom: 1px dashed #333; padding-bottom: 8px; margin-bottom: 5px; text-align: left; }
+      .agenda-item .actions-box { position: absolute; bottom: 15px; right: 15px; border: none; padding: 0; }
     }
-
+    
     #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
-    .view { display: none; animation: fadeIn 0.3s ease-out; }
+    .view { display: none; animation: fadeIn 0.3s; }
     .view.active { display: block; }
     @keyframes fadeIn { from {opacity:0} to {opacity:1} }
     .date-separator { font-family: 'Oswald'; font-size: 1rem; color: var(--gold); margin: 25px 0 10px 0; padding-bottom: 5px; border-bottom: 1px dashed #333; }
+    /* --- ANIMAÇÕES E MELHORIAS VISUAIS --- */
+    .card, .kpi-card, .agenda-item, .service-card { transform: translateY(6px); opacity: 0; transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 360ms ease; }
+    .view.active .card, .view.active .kpi-card, .view.active .agenda-item, .view.active .service-card { transform: translateY(0); opacity: 1; }
+    .nav-btn:hover { transform: translateX(6px); color: var(--gold); }
+    .btn-refresh i { transition: transform 0.6s ease; }
+    .btn-refresh:hover i { transform: rotate(180deg) scale(1.05); color: var(--gold); }
+    .btn-icon { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .btn-icon:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+    .btn-p, .btn-refresh, .btn-book { position: relative; overflow: hidden; }
+    /* ripple */
+    .ripple { position: absolute; border-radius: 50%; transform: scale(0); background: rgba(255,255,255,0.08); pointer-events: none; }
+    /* smooth view transitions */
+    .view { transition: opacity 320ms ease, transform 320ms ease; }
+    .overlay { transition: opacity 280ms ease, visibility 280ms ease; }
+    .sidebar { will-change: transform; }
+    /* --- AÇÕES RÁPIDAS: WHATSAPP e SIDEBAR FOOTER --- */
+    .btn-whats { background: rgba(37,211,102,0.06); color: #25D366; border: 1px solid rgba(37,211,102,0.12); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-whats:hover { background: rgba(37,211,102,0.12); box-shadow: 0 8px 22px rgba(37,211,102,0.08); color: #fff; }
+
+    .sidebar-footer { margin-top: auto; padding-top: 18px; color: #aaa; font-size: 0.85rem; border-top: 1px solid #1b1b1b; display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-footer .created-by { color: #777; font-size: 0.8rem; }
+    .logout-btn { cursor: pointer; align-self: stretch; background: transparent; color: var(--gold); border: 1px solid rgba(255,255,255,0.04); padding: 10px 12px; border-radius: 8px; text-align: center; font-weight: 700; transition: transform 0.15s ease, background 0.15s ease; }
+    .logout-btn:hover { transform: translateY(-3px); background: rgba(207,161,68,0.12); color: #000; }
   </style>
 </head>
 <body>
@@ -124,7 +129,6 @@
   <div class="mobile-logo">DF ADMIN</div>
   <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
 </div>
-
 <div class="overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
 <div id="modalInput" class="modal-overlay">
@@ -132,7 +136,7 @@
     <h3 id="modalTitle">...</h3>
     <div id="modalContent"></div>
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px">
-      <button onclick="closeModal()" style="background:transparent; border:1px solid #444; color:#aaa; padding:10px 20px; cursor:pointer; border-radius:6px; font-weight:600">Cancelar</button>
+      <button onclick="closeModal()" style="background:transparent; border:1px solid #444; color:#aaa; padding:10px; cursor:pointer; border-radius:6px">Cancelar</button>
       <button id="modalConfirmBtn" class="btn-p">Salvar</button>
     </div>
   </div>
@@ -140,8 +144,7 @@
 
 <div id="login-overlay">
   <div style="font-family:'Oswald'; font-size:3rem; color:var(--gold); border:3px solid var(--gold); display:inline-block; padding:5px 15px; margin-bottom:20px">DF</div>
-  <h4 style="color:#666; margin:0 0 20px 0; font-weight:400">PAINEL ADMINISTRATIVO</h4>
-  <input type="password" id="pass" placeholder="Senha de Acesso" style="text-align:center; width:280px">
+  <input type="password" id="pass" placeholder="Senha" style="text-align:center; width:280px">
   <button class="btn-p" onclick="login()" style="width:280px; margin-top:10px">ENTRAR</button>
 </div>
 
@@ -169,36 +172,34 @@
     <div class="dash-grid">
       <div class="kpi-card"><div class="kpi-title">Faturamento Hoje</div><div class="kpi-val" id="kpiHoje">R$ 0,00</div><div class="kpi-icon"><i class="fas fa-coins"></i></div></div>
       <div class="kpi-card"><div class="kpi-title">Agendamentos Hoje</div><div class="kpi-val" id="kpiQtd">0</div><div class="kpi-icon"><i class="fas fa-user-clock"></i></div></div>
-      <div class="kpi-card"><div class="kpi-title">Faturamento (Mês)</div><div class="kpi-val" id="kpiMes">R$ 0,00</div><div class="kpi-icon"><i class="fas fa-calendar-check"></i></div></div>
+      <div class="kpi-card"><div class="kpi-title">Previsão (Mês)</div><div class="kpi-val" id="kpiMes">R$ 0,00</div><div class="kpi-icon"><i class="fas fa-calendar-check"></i></div></div>
     </div>
     <div class="card">
       <h3 style="margin-top:0; color:var(--gold); font-family:'Oswald'; font-size:1.1rem">Faturamento (7 Dias)</h3>
-      <div style="height: 250px; width: 100%;">
-        <canvas id="revenueChart"></canvas>
-      </div>
+      <div style="height: 250px; width: 100%;"><canvas id="revenueChart"></canvas></div>
     </div>
   </div>
 
   <div id="agenda" class="view">
-    <h1>AGENDA <div><button class="btn-sec" onclick="openBulkCreate()">Gerar Dia</button><button class="btn-p" onclick="openAddSlot()">+ 1</button><button class="btn-refresh" onclick="loadAgenda()"><i class="fas fa-sync"></i></button></div></h1>
+    <h1>AGENDA <div><button class="btn-sec" onclick="openBulkCreate()" title="Gerar Dia"><i class="fas fa-magic"></i> Dia</button><button class="btn-p" onclick="openAddSlot()">+ 1</button><button class="btn-refresh" onclick="loadAgenda()"><i class="fas fa-sync"></i></button></div></h1>
     <div class="card">
       <div style="display:flex; gap:10px; margin-bottom:15px">
         <input type="date" id="filtroData" onchange="loadAgenda()" style="margin:0">
-        <button class="btn-p" style="width:auto; margin:0; padding:10px 15px" onclick="clearDateAndLoad()" title="Mostrar Próximos"><i class="fas fa-infinity"></i></button>
+        <button class="btn-p" style="width:auto; margin:0" onclick="clearDateAndLoad()"><i class="fas fa-infinity"></i></button>
       </div>
       <div id="agenda-list">Carregando...</div>
     </div>
   </div>
 
   <div id="servicos" class="view">
-    <h1>SERVIÇOS <div><button class="btn-p" onclick="openAddService()">+ Serviço</button><button class="btn-refresh" onclick="loadServicos()"><i class="fas fa-sync"></i></button></div></h1>
+    <h1>SERVIÇOS <div><button class="btn-p" onclick="openAddService()">+ Novo</button><button class="btn-refresh" onclick="loadServicos()"><i class="fas fa-sync"></i></button></div></h1>
     <div id="servicos-list"></div>
   </div>
 
   <div id="colabs" class="view">
-    <h1>BARBEIROS <div><button class="btn-p" onclick="openAddColab()">+ Barbeiro</button><button class="btn-refresh" onclick="loadBarbeiros()"><i class="fas fa-sync"></i></button></div></h1>
+    <h1>BARBEIROS <div><button class="btn-p" onclick="openAddColab()">+ Novo</button><button class="btn-refresh" onclick="loadBarbeiros()"><i class="fas fa-sync"></i></button></div></h1>
     <div class="card" style="background:transparent; border:none; padding:0">
-      <div style="color:#888; font-size:0.8rem; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px">Comissões (Este Mês)</div>
+      <div style="color:#888; font-size:0.8rem; margin-bottom:10px; text-transform:uppercase">Comissões (Mês Atual)</div>
       <div id="colabs-list"></div>
     </div>
   </div>
@@ -211,17 +212,19 @@
 </div>
 
 <script>
-  const API = "https://script.google.com/macros/s/AKfycbxeJL-Kkq5c0b1ioHVSWrMow0gLrEFpVfbzZNFNdnGiCn9X93Zxyn-s-c5_kPwxpgE/exec"; 
+  const API = "https://script.google.com/macros/s/AKfycbwxxwg1dyewI17FLDFunD2t9hnEWx0K0vzBpqgyLnTNkGUZpu9OPkelujy7IhvMsGQ/exec"; 
   let TOKEN = "";
   let agendaData = {};
   let chartInstance = null;
 
   // MENU MOBILE
   function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('active');
-    document.getElementById('menuOverlay').style.display = document.getElementById('sidebar').classList.contains('active') ? 'block' : 'none';
+    const sb = document.getElementById('sidebar');
+    sb.classList.toggle('active');
+    document.getElementById('menuOverlay').style.display = sb.classList.contains('active') ? 'block' : 'none';
   }
 
+  // PERSISTÊNCIA LOGIN
   window.onload = () => {
     const savedToken = localStorage.getItem('adminToken');
     if(savedToken) {
@@ -244,10 +247,7 @@
     }
   }
 
-  function logout() {
-    localStorage.removeItem('adminToken');
-    location.reload();
-  }
+  function logout() { localStorage.removeItem('adminToken'); location.reload(); }
 
   async function req(act, p={}) {
     try { const r=await fetch(API,{method:"POST",body:JSON.stringify({action:act,token:TOKEN,...p})}); const j=await r.json(); if(!j.success){showToast(j.error||"Erro","error");return null;} return j.data; }
@@ -271,27 +271,88 @@
   
   function closeModal() { document.getElementById('modalInput').style.display='none'; }
 
+  // --- RENDERIZADORES OTIMIZADOS PARA MOBILE (.row-card) ---
+  
+  function loadServicos() {
+    req('getServices').then(l => {
+      const d = document.getElementById('servicos-list'); d.innerHTML = '';
+      l.forEach(s => {
+        d.innerHTML += `
+        <div class="card">
+          <div class="row-card">
+            <div class="info-group">
+              <div class="info-title">${s.nome}</div>
+              <div class="info-sub">R$ ${s.valor}</div>
+              <div class="info-desc">Tip: R$ ${s.gorjeta}</div>
+            </div>
+            <div class="actions-box">
+              <button class="btn-icon btn-edit" onclick="openEditService('${s.id}','${s.nome}','${s.valor}','${s.gorjeta}')"><i class="fas fa-pen"></i></button>
+              <button class="btn-icon btn-del" onclick="if(confirm('Apagar?')) req('delService',{id:'${s.id}'}).then(loadServicos)"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>`;
+      });
+    });
+  }
+
+  function loadBarbeiros() {
+    req('getColabs').then(l => {
+      const d = document.getElementById('colabs-list'); d.innerHTML = '';
+      l.forEach(c => {
+         d.innerHTML += `
+         <div class="card">
+           <div class="row-card">
+             <div class="info-group">
+               <div class="info-title">${c.nome}</div>
+               <div class="info-desc">${c.role}</div>
+             </div>
+             <div class="actions-box" style="align-items:center">
+               <div style="text-align:right;margin-right:10px"><div style="font-size:0.6rem;color:#888">COMISSÃO</div><div style="color:var(--gold);font-weight:bold">R$ ${c.acumulado}</div></div>
+               <button class="btn-icon btn-edit" onclick="openEditColab('${c.id}','${c.nome}','${c.role}')"><i class="fas fa-pen"></i></button>
+               <button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('delColab',{id:'${c.id}'}).then(loadBarbeiros)"><i class="fas fa-trash"></i></button>
+             </div>
+           </div>
+         </div>`;
+      });
+    });
+  }
+
+  function loadClientes() {
+    req('getClients').then(l => {
+      const d = document.getElementById('clientes-list'); d.innerHTML = '';
+      l.forEach(c => {
+         d.innerHTML += `
+         <div style="padding:15px;border-bottom:1px solid #333" class="row-card">
+           <div class="info-group">
+             <div class="info-title" style="font-size:0.95rem">${c.nome}</div>
+             <div class="info-desc">${c.tel}</div>
+           </div>
+           <div class="actions-box">
+             <button class="btn-icon btn-edit" onclick="openEditClient('${c.id}','${c.nome}','${c.tel}')"><i class="fas fa-pen"></i></button>
+             <button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('delClient',{id:'${c.id}'}).then(loadClientes)"><i class="fas fa-trash"></i></button>
+           </div>
+         </div>`;
+      });
+    });
+  }
+
+  // --- DEMAIS FUNÇÕES (MANTIDAS) ---
   function loadDash() {
     req('getDashboard').then(d => {
       if(d) {
         document.getElementById('kpiHoje').innerText = "R$ " + d.hoje;
         document.getElementById('kpiQtd').innerText = d.qtdHoje;
         document.getElementById('kpiMes').innerText = "R$ " + d.mes;
-        
         const ctx = document.getElementById('revenueChart').getContext('2d');
         if(chartInstance) chartInstance.destroy();
-        chartInstance = new Chart(ctx, {
-          type: 'bar', data: { labels: d.chartLabels, datasets: [{ label: 'Faturamento', data: d.chartValues, backgroundColor: '#cfa144', borderRadius: 4 }] },
-          options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#222' }, ticks: { color: '#888' } }, x: { grid: { display: false }, ticks: { color: '#888' } } }, plugins: { legend: { display: false } } }
-        });
+        chartInstance = new Chart(ctx, { type: 'bar', data: { labels: d.chartLabels, datasets: [{ label: 'Faturamento', data: d.chartValues, backgroundColor: '#cfa144', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#222' } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } } });
       }
     });
   }
 
-  function clearDateAndLoad() { document.getElementById('filtroData').value = ""; loadAgenda(); }
   function loadAgenda() {
     const d = document.getElementById('filtroData').value;
-    document.getElementById('agenda-list').innerHTML = '<div style="color:#666;text-align:center;padding:20px">Atualizando...</div>';
+    document.getElementById('agenda-list').innerHTML = '<div style="color:#666;text-align:center;padding:20px">Carregando...</div>';
     req('listSlots', {filtroData:d}).then(list => {
       const div = document.getElementById('agenda-list'); div.innerHTML = '';
       agendaData = {};
@@ -310,21 +371,52 @@
       });
     });
   }
+  function clearDateAndLoad() { document.getElementById('filtroData').value = ""; loadAgenda(); }
 
-  function loadServicos() { req('getServices').then(l => { const d = document.getElementById('servicos-list'); d.innerHTML = ''; l.forEach(s => { d.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:bold;color:white">${s.nome}</div><div style="color:var(--gold)">R$ ${s.valor} <span style="color:#666;font-size:0.8rem">(Tip: R$ ${s.gorjeta})</span></div></div><div class="actions-box"><button class="btn-icon btn-edit" onclick="openEditService('${s.id}','${s.nome}','${s.valor}','${s.gorjeta}')"><i class="fas fa-pen"></i></button><button class="btn-icon btn-del" onclick="if(confirm('Apagar?')) req('delService',{id:'${s.id}'}).then(loadServicos)"><i class="fas fa-trash"></i></button></div></div>`; }); }); }
-  function loadBarbeiros() { req('getColabs').then(l => { const d = document.getElementById('colabs-list'); d.innerHTML = ''; l.forEach(c => { d.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:white;font-weight:bold">${c.nome}</div><div style="font-size:0.8rem;color:#666">${c.role}</div></div><div class="actions-box"><div style="text-align:right;margin-right:15px;font-size:0.8rem;color:var(--gold)">R$ ${c.acumulado}</div><button class="btn-icon btn-edit" onclick="openEditColab('${c.id}','${c.nome}','${c.role}')"><i class="fas fa-pen"></i></button><button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('delColab',{id:'${c.id}'}).then(loadBarbeiros)"><i class="fas fa-trash"></i></button></div></div>`; }); }); }
-  function loadClientes() { req('getClients').then(l => { const d = document.getElementById('clientes-list'); d.innerHTML = ''; l.forEach(c => { d.innerHTML += `<div style="padding:15px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center"><span>${c.nome}<br><small style="color:#666">${c.tel}</small></span><div class="actions-box"><button class="btn-icon btn-edit" onclick="openEditClient('${c.id}','${c.nome}','${c.tel}')"><i class="fas fa-pen"></i></button><button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('delClient',{id:'${c.id}'}).then(loadClientes)"><i class="fas fa-trash"></i></button></div></div>`; }); }); }
-
-  // --- MODAIS E FUNÇÕES (MANTIDAS) ---
-  function openEditBook(rowId) { const data = agendaData[rowId]; if(!data) return; req('getColabs').then(barbers => { let options = `<option value="">Selecione</option>`; barbers.forEach(b => { let sel = (data.barbeiro === b.nome) ? 'selected' : ''; options += `<option value="${b.nome}" ${sel}>${b.nome}</option>`; }); document.getElementById('modalTitle').innerText = "Editar Agendamento"; document.getElementById('modalContent').innerHTML = `<label style="color:#aaa;font-size:0.8rem">Cliente</label><input id="edtName" value="${data.cliente}"><label style="color:#aaa;font-size:0.8rem">Telefone</label><input id="edtTel" value="${data.tel.replace(/'/g,'')}"><label style="color:#aaa;font-size:0.8rem">Barbeiro</label><select id="edtBarb">${options}</select><label style="color:#aaa;font-size:0.8rem">Serviço</label><input id="edtServ" value="${data.servicos}"><label style="color:#aaa;font-size:0.8rem">Valor</label><input id="edtVal" value="${data.valor}">`; document.getElementById('modalConfirmBtn').onclick = () => { req('editBook', {rowIndex:rowId, nome:document.getElementById('edtName').value, telefone:document.getElementById('edtTel').value, servicos:document.getElementById('edtServ').value, valor:document.getElementById('edtVal').value, barbeiro:document.getElementById('edtBarb').value}).then((res)=>{ closeModal(); loadAgenda(); showToast(res); }); }; document.getElementById('modalInput').style.display='flex'; }); }
-  function openManualBook(rowId, time) { req('getColabs').then(barbers => { let options = `<option value="">Selecione</option>`; barbers.forEach(b => { options += `<option value="${b.nome}">${b.nome}</option>`; }); document.getElementById('modalTitle').innerText = "Reserva Manual ("+time+")"; document.getElementById('modalContent').innerHTML = `<input id="mbName" placeholder="Nome"><input id="mbTel" placeholder="WhatsApp"><select id="mbBarb">${options}</select><input id="mbServ" placeholder="Serviço"><select id="mbPay"><option>Dinheiro</option><option>Cartão</option><option>PIX</option></select><input id="mbVal" placeholder="Valor">`; document.getElementById('modalConfirmBtn').onclick = () => { const n=document.getElementById('mbName').value; const b=document.getElementById('mbBarb').value; if(n && b){ const valFinal = document.getElementById('mbVal').value + " (" + document.getElementById('mbPay').value + ")"; req('book', {rowIndex:rowId, nome:n, telefone:document.getElementById('mbTel').value||"Admin", servicos:document.getElementById('mbServ').value||"Manual", valor:valFinal, barbeiro:b}).then(()=>{ closeModal(); loadAgenda(); showToast("Agendado!"); }); } else { alert("Nome e Barbeiro obrigatórios"); } }; document.getElementById('modalInput').style.display='flex'; }); }
+  // MODAIS
   function openEditService(id,n,v,g) { document.getElementById('modalTitle').innerText="Editar"; document.getElementById('modalContent').innerHTML=`<input id="en" value="${n}"><input id="ev" value="${v}"><input id="eg" value="${g}">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('editService',{id:id,nome:document.getElementById('en').value,valor:document.getElementById('ev').value,gorjeta:document.getElementById('eg').value}).then(()=>{closeModal();loadServicos();});}; document.getElementById('modalInput').style.display='flex'; }
   function openEditColab(id,n,r) { document.getElementById('modalTitle').innerText="Editar"; document.getElementById('modalContent').innerHTML=`<input id="en" value="${n}"><input id="er" value="${r}">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('editColab',{id:id,nome:document.getElementById('en').value,role:document.getElementById('er').value}).then(()=>{closeModal();loadBarbeiros();});}; document.getElementById('modalInput').style.display='flex'; }
   function openEditClient(id,n,t) { document.getElementById('modalTitle').innerText="Editar"; document.getElementById('modalContent').innerHTML=`<input id="en" value="${n}"><input id="et" value="${t}">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('editClient',{id:id,nome:document.getElementById('en').value,tel:document.getElementById('et').value}).then(()=>{closeModal();loadClientes();});}; document.getElementById('modalInput').style.display='flex'; }
+  function openEditBook(rowId) { const data = agendaData[rowId]; if(!data) return; req('getColabs').then(barbers => { let options = `<option value="">Selecione</option>`; barbers.forEach(b => { let sel = (data.barbeiro === b.nome) ? 'selected' : ''; options += `<option value="${b.nome}" ${sel}>${b.nome}</option>`; }); document.getElementById('modalTitle').innerText = "Editar Agendamento"; document.getElementById('modalContent').innerHTML = `<label style="color:#aaa;font-size:0.8rem">Cliente</label><input id="edtName" value="${data.cliente}"><label style="color:#aaa;font-size:0.8rem">Telefone</label><input id="edtTel" value="${data.tel.replace(/'/g,'')}"><label style="color:#aaa;font-size:0.8rem">Barbeiro</label><select id="edtBarb">${options}</select><label style="color:#aaa;font-size:0.8rem">Serviço</label><input id="edtServ" value="${data.servicos}"><label style="color:#aaa;font-size:0.8rem">Valor</label><input id="edtVal" value="${data.valor}">`; document.getElementById('modalConfirmBtn').onclick = () => { req('editBook', {rowIndex:rowId, nome:document.getElementById('edtName').value, telefone:document.getElementById('edtTel').value, servicos:document.getElementById('edtServ').value, valor:document.getElementById('edtVal').value, barbeiro:document.getElementById('edtBarb').value}).then((res)=>{ closeModal(); loadAgenda(); showToast(res); }); }; document.getElementById('modalInput').style.display='flex'; }); }
+  function openManualBook(rowId, time) { req('getColabs').then(barbers => { let options = `<option value="">Selecione</option>`; barbers.forEach(b => { options += `<option value="${b.nome}">${b.nome}</option>`; }); document.getElementById('modalTitle').innerText = "Reserva Manual ("+time+")"; document.getElementById('modalContent').innerHTML = `<input id="mbName" placeholder="Nome"><input id="mbTel" placeholder="WhatsApp"><select id="mbBarb">${options}</select><input id="mbServ" placeholder="Serviço"><select id="mbPay"><option>Dinheiro</option><option>Cartão</option><option>PIX</option></select><input id="mbVal" placeholder="Valor">`; document.getElementById('modalConfirmBtn').onclick = () => { const n=document.getElementById('mbName').value; const b=document.getElementById('mbBarb').value; if(n && b){ const valFinal = document.getElementById('mbVal').value + " (" + document.getElementById('mbPay').value + ")"; req('book', {rowIndex:rowId, nome:n, telefone:document.getElementById('mbTel').value||"Admin", servicos:document.getElementById('mbServ').value||"Manual", valor:valFinal, barbeiro:b}).then(()=>{ closeModal(); loadAgenda(); showToast("Agendado!"); }); } else { alert("Nome e Barbeiro obrigatórios"); } }; document.getElementById('modalInput').style.display='flex'; }); }
   function openAddService() { document.getElementById('modalTitle').innerText="Novo Serviço"; document.getElementById('modalContent').innerHTML=`<input id="n" placeholder="Nome"><input id="v" placeholder="Valor"><input id="g" placeholder="Gorjeta">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('addService',{nome:document.getElementById('n').value,valor:document.getElementById('v').value,gorjeta:document.getElementById('g').value}).then(()=>{closeModal();loadServicos();})}; document.getElementById('modalInput').style.display='flex'; }
   function openAddColab() { document.getElementById('modalTitle').innerText="Novo Barbeiro"; document.getElementById('modalContent').innerHTML=`<input id="n" placeholder="Nome">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('addColab',{nome:document.getElementById('n').value,role:"Barbeiro"}).then(()=>{closeModal();loadBarbeiros();})}; document.getElementById('modalInput').style.display='flex'; }
-  function openAddSlot() { document.getElementById('modalTitle').innerText="Horário Único"; document.getElementById('modalContent').innerHTML=`<input id="d" type="date" value="${document.getElementById('filtroData').value}"><input id="h" type="time">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('addSingle',{data:document.getElementById('d').value,hora:document.getElementById('h').value}).then(()=>{closeModal();loadAgenda();})}; document.getElementById('modalInput').style.display='flex'; }
-  function openBulkCreate() { document.getElementById('modalTitle').innerText="Gerar Dia"; document.getElementById('modalContent').innerHTML=`<input id="d" type="date" value="${document.getElementById('filtroData').value}"><div style="display:flex;gap:10px"><input id="i" type="time" value="09:00"><input id="f" type="time" value="19:00"></div><select id="int"><option value="30">30m</option><option value="40" selected>40m</option><option value="60">1h</option></select>`; document.getElementById('modalConfirmBtn').onclick=()=>{req('addBulk',{data:document.getElementById('d').value,inicio:document.getElementById('i').value,fim:document.getElementById('f').value,intervalo:document.getElementById('int').value}).then(()=>{closeModal();loadAgenda();})}; document.getElementById('modalInput').style.display='flex'; }
+  function openAddSlot() { document.getElementById('modalTitle').innerText="Horário Único"; document.getElementById('modalContent').innerHTML=`<input id="d" type="date" value="${new Date().toISOString().split('T')[0]}"><input id="h" type="time">`; document.getElementById('modalConfirmBtn').onclick=()=>{req('addSingle',{data:document.getElementById('d').value,hora:document.getElementById('h').value}).then(()=>{closeModal();loadAgenda();})}; document.getElementById('modalInput').style.display='flex'; }
+  function openBulkCreate() { document.getElementById('modalTitle').innerText="Gerar Dia"; document.getElementById('modalContent').innerHTML=`<input id="d" type="date" value="${new Date().toISOString().split('T')[0]}"><div style="display:flex;gap:10px"><input id="i" type="time" value="09:00"><input id="f" type="time" value="19:00"></div><select id="int"><option value="30">30m</option><option value="40" selected>40m</option><option value="60">1h</option></select>`; document.getElementById('modalConfirmBtn').onclick=()=>{req('addBulk',{data:document.getElementById('d').value,inicio:document.getElementById('i').value,fim:document.getElementById('f').value,intervalo:document.getElementById('int').value}).then(()=>{closeModal();loadAgenda();})}; document.getElementById('modalInput').style.display='flex'; }
+
+  /* UI ENHANCEMENTS: ripple, reveal on scroll, toast animation */
+  function initUIEnhancements(){
+    // ripple effect for buttons
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('.btn-p, .btn-refresh, .btn-icon, .nav-btn, .btn-book');
+      if(!btn) return;
+      const rect = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height) * 1.2;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      btn.appendChild(ripple);
+      requestAnimationFrame(()=>{ ripple.style.transform = 'scale(1)'; ripple.style.opacity = '0.8'; });
+      setTimeout(()=>{ ripple.style.transition = 'opacity 400ms ease'; ripple.style.opacity = '0'; }, 220);
+      setTimeout(()=> ripple.remove(), 800);
+    });
+
+    // reveal elements on intersection (cards, items)
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(en => { if(en.isIntersecting){ en.target.style.transform = 'translateY(0)'; en.target.style.opacity = '1'; observer.unobserve(en.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.card, .kpi-card, .agenda-item, .row-card').forEach(el => observer.observe(el));
+
+    // toast subtle rise
+    const tc = document.getElementById('toast-container');
+    const mo = new MutationObserver(()=>{ tc.querySelectorAll('.toast').forEach((t,i)=>{ t.style.transform = `translateY(-${i*10}px)`; t.style.opacity = '1'; }); });
+    mo.observe(tc, { childList: true });
+  }
+
+  // init enhancements after load
+  window.addEventListener('load', initUIEnhancements);
 </script>
 </body>
 </html>
