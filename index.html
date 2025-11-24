@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DF Barber | Agendamento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { 
+      --bg-body: #0a0a0a; --bg-card: #141414; --gold: #cfa144; --gold-dim: #8a6a2a; 
+      --text-main: #ffffff; --text-muted: #888; --success: #28a745;
+    }
+    * { box-sizing: border-box; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    body { 
+      font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-main); 
+      margin: 0; padding: 20px; padding-bottom: 120px; 
+      background-image: radial-gradient(circle at top, #1a1a1a 0%, #0a0a0a 60%); min-height: 100vh;
+    }
+    .container { max-width: 480px; margin: 0 auto; }
+    
+    /* HEADER & LOGO */
+    header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
+    .brand-df { 
+      font-family: 'Oswald', sans-serif; font-size: 3.5rem; font-weight: 700; line-height: 1; 
+      color: var(--gold); border: 3px solid var(--gold); padding: 5px 15px; display: inline-block; 
+      letter-spacing: -2px; text-shadow: 0 0 20px rgba(207, 161, 68, 0.2);
+    }
+    .brand-text { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 8px; margin-top: 8px; text-transform: uppercase; padding-left: 8px; }
+
+    /* UI ELEMENTS */
+    .section-title { color: var(--text-muted); font-family: 'Oswald', sans-serif; font-size: 0.9rem; text-transform: uppercase; margin: 35px 0 15px 0; display: flex; align-items: center; gap: 12px; letter-spacing: 1px; }
+    .section-title i { color: var(--gold); }
+    .section-title::after { content:''; flex:1; height:1px; background: #333; }
+
+    .service-card { background: var(--bg-card); border-left: 3px solid #333; border-radius: 0 6px 6px 0; padding: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; position: relative; overflow: hidden; }
+    .service-card.selected { border-left: 3px solid var(--gold); background: linear-gradient(90deg, rgba(207, 161, 68, 0.1) 0%, transparent 100%); }
+    .service-card .name { font-weight: 500; font-size: 1rem; color: #eee; }
+    .service-card .price { font-family: 'Oswald', sans-serif; color: var(--gold); font-size: 1.1rem; font-weight: 600; }
+    
+    .slots-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .slot-btn { background: var(--bg-card); border: 1px solid #333; border-radius: 4px; padding: 12px 5px; text-align: center; cursor: pointer; }
+    .slot-btn.selected { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px rgba(207, 161, 68, 0.4); transform: scale(1.05); }
+    .slot-btn strong { display: block; font-family: 'Oswald', sans-serif; font-size: 1.1rem; }
+    .slot-btn small { font-size: 0.65rem; color: #666; font-weight: 600; text-transform: uppercase; }
+    .slot-btn.selected small { color: #222; }
+
+    /* BOTÃO DE ENCAIXE */
+    .btn-encaixe {
+      display: block; width: 100%; text-align: center; margin-top: 25px;
+      background: transparent; border: 1px dashed var(--gold); color: var(--gold);
+      padding: 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem;
+      transition: 0.3s;
+    }
+    .btn-encaixe:hover { background: rgba(207, 161, 68, 0.1); transform: translateY(-2px); }
+    .btn-encaixe i { margin-right: 8px; }
+
+    /* REDES SOCIAIS FLUTUANTES */
+    .social-float { position: fixed; bottom: 100px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 90; }
+    .float-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.2s; }
+    .float-btn:hover { transform: scale(1.1); }
+    .bg-whats { background: #25D366; }
+    .bg-insta { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+
+    /* BARRA TOTAL */
+    .total-bar { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); width: 90%; max-width: 480px; background: rgba(20, 20, 20, 0.95); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 100; backdrop-filter: blur(10px); opacity: 0; pointer-events: none; }
+    .total-bar.visible { transform: translate(-50%, 0); opacity: 1; pointer-events: all; }
+    .btn-agendar { background: var(--gold); color: #000; border: none; padding: 12px 30px; border-radius: 30px; font-family: 'Oswald', sans-serif; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 1px; }
+    .total-val { font-size: 1.3rem; font-family: 'Oswald', sans-serif; color: white; font-weight: bold; }
+
+    /* MODAIS */
+    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+    .modal-box { background: #141414; width: 90%; max-width: 380px; padding: 40px 30px; border-radius: 12px; border: 1px solid #333; text-align: center; border-top: 4px solid var(--gold); position:relative; }
+    input { width: 100%; padding: 15px; margin: 8px 0; background: #0a0a0a; border: 1px solid #333; color: white; font-family: 'Montserrat', sans-serif; border-radius: 4px; }
+    input:focus { outline: none; border-color: var(--gold); }
+    .success-icon { font-size: 4rem; color: var(--gold); margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+    .calendar-options { display: flex; gap: 10px; flex-direction: column; margin-top: 20px; }
+    .btn-cal { text-decoration: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s; color: white; border: 1px solid #333; background: #222; }
+    .btn-google { background: #202020; }
+    
+    .footer { text-align: center; margin-top: 60px; font-size: 0.75rem; color: #333; text-transform: uppercase; letter-spacing: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="brand-df">DF</div><div class="brand-text">Barber</div>
+  </header>
+
+  <div class="section-title"><i class="fas fa-cut"></i> Serviços</div>
+  <div id="services-list" style="min-height:80px"><p style="text-align:center;color:#444;margin-top:20px"><i class="fas fa-circle-notch fa-spin"></i> Carregando...</p></div>
+
+  <div class="section-title"><i class="fas fa-clock"></i> Horários Disponíveis</div>
+  <div id="slots" class="slots-grid"></div>
+  <p id="msg-slots" style="text-align:center;color:#444;margin-top:30px;font-size:0.9rem;display:none">Agenda lotada para hoje.</p>
+
+  <a href="https://wa.me/5511913069727?text=Olá,%20gostaria%20de%20saber%20se%20tem%20algum%20horário%20de%20encaixe%20para%20hoje?" target="_blank" class="btn-encaixe">
+    <i class="fab fa-whatsapp"></i> Não achou horário? <strong>Pedir Encaixe</strong>
+  </a>
+</div>
+
+<div class="social-float">
+  <a href="https://www.instagram.com/df_barberr/" target="_blank" class="float-btn bg-insta" title="Instagram">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://wa.me/5511913069727" target="_blank" class="float-btn bg-whats" title="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<div id="bar" class="total-bar">
+  <div><div style="font-size:0.7rem;color:#888;text-transform:uppercase">Total</div><div id="totalVal" class="total-val">R$ 0,00</div></div>
+  <button class="btn-agendar" onclick="openModal('modalForm')">Agendar <i class="fas fa-arrow-right"></i></button>
+</div>
+
+<div class="footer">&copy; 2025 DF Barber</div>
+
+<div id="modalForm" class="modal-overlay">
+  <div class="modal-box">
+    <h2 style="color:white; margin-top:0; font-family:'Oswald'">DADOS</h2>
+    <p style="color:#666; font-size:0.85rem; margin-bottom:25px">Informe seus dados para a reserva.</p>
+    <input type="text" id="name" placeholder="Nome Completo">
+    <input type="tel" id="tel" placeholder="WhatsApp (DDD)" oninput="mask(this)">
+    <button class="btn-agendar" style="width:100%; margin-top:20px" onclick="send()" id="btnSend">CONFIRMAR</button>
+    <div onclick="closeModal('modalForm')" style="margin-top:20px; color:#444; cursor:pointer; font-size:0.75rem; text-decoration:underline">CANCELAR</div>
+  </div>
+</div>
+
+<div id="modalSuccess" class="modal-overlay">
+  <div class="modal-box" style="border-top-color: var(--success);">
+    <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+    <h2 style="color:white; margin:0; font-family:'Oswald'">AGENDADO!</h2>
+    <p style="color:#888; font-size:0.9rem; margin-top:10px">Seu horário está garantido.</p>
+    
+    <div style="margin-top:20px; text-align:left; font-size:0.85rem; color:#ccc; background:#222; padding:15px; border-radius:6px">
+      <div><strong style="color:var(--gold)">Serviço:</strong> <span id="resumoServico">...</span></div>
+      <div style="margin-top:5px"><strong style="color:var(--gold)">Horário:</strong> <span id="resumoData">...</span></div>
+    </div>
+
+    <div class="calendar-options">
+      <a id="linkGoogle" target="_blank" class="btn-cal btn-google"><i class="fab fa-google"></i> Google Agenda</a>
+      <a id="linkOutlook" target="_blank" class="btn-cal"><i class="fab fa-microsoft"></i> Outlook</a>
+      <a id="linkApple" download="agendamento.ics" class="btn-cal"><i class="fab fa-apple"></i> Apple / iCal</a>
+    </div>
+
+    <div onclick="location.reload()" style="margin-top:20px; color:#666; cursor:pointer; font-size:0.75rem;">FECHAR</div>
+  </div>
+</div>
+
+<script>
+  // ⚠️ URL DE IMPLANTAÇÃO (MANTIDA A ÚLTIMA FORNECIDA)
+  const API_URL = "https://script.google.com/macros/s/AKfycbyMM-PU7pKtaXQk5zML4BYj6ifHLpl2TyhX91lKwLbyOA3QUr8r_Uf3FSFKf9WhD_E/exec"; 
+
+  let total = 0;
+  let servicos = [];
+  let selectedSlot = null;
+
+  window.onload = () => { loadServices(); loadSlots(); };
+
+  async function api(act, p = {}) {
+    const res = await fetch(API_URL, { method:"POST", body: JSON.stringify({action:act, ...p}) });
+    const j = await res.json();
+    return j.data;
+  }
+
+  function loadServices() {
+    api('getServices').then(list => {
+      const div = document.getElementById('services-list'); div.innerHTML = '';
+      if(!list || !list.length) return div.innerHTML = "Sem serviços.";
+      list.forEach(s => {
+        const val = Number(s.valor) || 0;
+        const card = document.createElement('div');
+        card.className = 'service-card';
+        card.innerHTML = `<div class="name">${s.nome}</div><div class="price">R$ ${val.toFixed(2)}</div>`;
+        card.onclick = () => toggleService(card, val, s.nome);
+        div.appendChild(card);
+      });
+    });
+  }
+
+  function loadSlots() {
+    api('clientList').then(data => {
+      const div = document.getElementById('slots'); div.innerHTML = '';
+      if(!data || !data.length) { document.getElementById('msg-slots').style.display = 'block'; return; }
+      data.forEach(s => {
+        const btn = document.createElement('div');
+        btn.className = 'slot-btn';
+        btn.innerHTML = `<strong>${s.hora}</strong><small>${s.dataFmt}</small>`;
+        btn.onclick = () => {
+          document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedSlot = s;
+          update();
+        };
+        div.appendChild(btn);
+      });
+    });
+  }
+
+  function toggleService(el, val, name) {
+    el.classList.toggle('selected');
+    if(el.classList.contains('selected')) { total += val; servicos.push(name); } else { total -= val; servicos = servicos.filter(s => s !== name); }
+    update();
+  }
+
+  function update() {
+    document.getElementById('totalVal').innerText = "R$ " + Math.max(0, total).toFixed(2);
+    const bar = document.getElementById('bar');
+    if(total > 0 && selectedSlot) bar.classList.add('visible'); else bar.classList.remove('visible');
+  }
+
+  function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+  function mask(o) { o.value = o.value.replace(/\D/g,"").replace(/^(\d{2})(\d)/g,"($1) $2").replace(/(\d)(\d{4})$/,"$1-$2"); }
+
+  function send() {
+    const n = document.getElementById('name').value;
+    const t = document.getElementById('tel').value;
+    if(!n || t.length < 10) return alert("Preencha os dados!");
+    
+    const btn = document.getElementById('btnSend'); btn.innerText = "AGENDANDO...";
+    
+    setupCalendar(n);
+
+    api('book', {
+      rowIndex: selectedSlot.rowIndex,
+      nome: n, telefone: t, servicos: servicos.join(', '),
+      valor: document.getElementById('totalVal').innerText
+    }).then(() => {
+      closeModal('modalForm');
+      document.getElementById('resumoServico').innerText = servicos.join(', ');
+      document.getElementById('resumoData').innerText = `${selectedSlot.dataFmt} às ${selectedSlot.hora}`;
+      openModal('modalSuccess');
+    }).catch(() => { alert("Erro ao agendar."); btn.innerText = "TENTAR NOVAMENTE"; });
+  }
+
+  function setupCalendar(clientName) {
+    const start = new Date(`${selectedSlot.data}T${selectedSlot.hora}:00`);
+    const end = new Date(start.getTime() + 60*60000); 
+
+    const title = "Barbearia DF Barber";
+    const details = `Cliente: ${clientName} | Serviços: ${servicos.join(', ')}`;
+    const loc = "DF Barber Studio";
+
+    const fmtG = (d) => d.toISOString().replace(/-|:|\.\d\d\d/g,"");
+    document.getElementById('linkGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmtG(start)}/${fmtG(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(loc)}`;
+
+    document.getElementById('linkOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${start.toISOString()}&enddt=${end.toISOString()}&subject=${encodeURIComponent(title)}&body=${encodeURIComponent(details)}&location=${encodeURIComponent(loc)}`;
+
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:${document.URL}\nDTSTART:${fmtG(start)}\nDTEND:${fmtG(end)}\nSUMMARY:${title}\nDESCRIPTION:${details}\nLOCATION:${loc}\nEND:VEVENT\nEND:VCALENDAR`;
+    document.getElementById('linkApple').href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+  }
+</script>
+</body>
+</html>
