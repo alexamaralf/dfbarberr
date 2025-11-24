@@ -7,59 +7,52 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* MESMO ESTILO ANTERIOR (DARK & GOLD) */
     :root { --bg: #0a0a0a; --sidebar: #000; --gold: #cfa144; --text: #eee; --card: #141414; }
     body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
     
-    /* SIDEBAR & LAYOUT */
     .sidebar { width: 250px; background: var(--sidebar); border-right: 1px solid #222; padding: 20px; display: flex; flex-direction: column; }
     .logo { color: var(--gold); font-family: 'Oswald', sans-serif; font-size: 1.8rem; text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #333; }
     .nav-btn { background: none; border: none; color: #666; padding: 15px; text-align: left; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; width: 100%; border-radius: 6px; font-weight: 500; margin-bottom: 5px; }
     .nav-btn:hover { color: white; background: #111; }
     .nav-btn.active { background: var(--gold); color: black; font-weight: bold; }
-    .main { flex: 1; padding: 40px; overflow-y: auto; background-image: radial-gradient(circle at top left, #1a1a1a 0%, #0a0a0a 40%); position: relative; }
     
+    .main { flex: 1; padding: 40px; overflow-y: auto; background-image: radial-gradient(circle at top left, #1a1a1a 0%, #0a0a0a 40%); position: relative; }
     h1 { font-family: 'Oswald', sans-serif; color: white; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px; }
     .card { background: var(--card); padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #222; }
-    
-    /* AGENDA ITEM (Melhorado) */
+
+    /* LAYOUT AGENDA */
     .agenda-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #222; align-items: center; background: #0f0f0f; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid transparent; }
     .agenda-item.booked { border-left-color: var(--gold); background: #181818; }
-    .agenda-item:last-child { margin-bottom: 0; }
-    
     .time-box { font-family: 'Oswald'; font-size: 1.5rem; color: white; min-width: 70px; text-align: center; line-height: 1; }
     .time-box span { display: block; font-size: 0.7rem; font-family: 'Montserrat'; color: #666; margin-top: 3px; }
-    
     .info-box { flex: 1; }
     .client-name { font-weight: 700; color: white; font-size: 1rem; }
-    .service-name { color: var(--gold); font-size: 0.85rem; margin-top: 2px; }
+    .service-name { color: var(--gold); font-size: 0.85rem; }
     .contact-info { color: #888; font-size: 0.8rem; margin-top: 4px; display: flex; gap: 15px; }
-    
-    /* BOTÕES DE AÇÃO */
+
+    /* BOTÕES */
     .actions-box { display: flex; gap: 8px; }
-    
-    button.btn-p { background: var(--gold); color: black; border: none; padding: 8px 20px; cursor: pointer; font-weight: bold; font-family: 'Oswald', sans-serif; border-radius: 4px; text-transform: uppercase; font-size: 0.8rem; }
-    
     .btn-icon { width: 35px; height: 35px; border-radius: 4px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-del { background: rgba(211, 47, 47, 0.1); color: #d32f2f; border: 1px solid #d32f2f; }
     .btn-del:hover { background: #d32f2f; color: white; }
-    
-    /* BOTÃO WHATSAPP */
     .btn-whats { background: rgba(37, 211, 102, 0.1); color: #25D366; border: 1px solid #25D366; text-decoration: none; }
     .btn-whats:hover { background: #25D366; color: white; }
+    
+    button.btn-p { background: var(--gold); color: black; border: none; padding: 8px 20px; cursor: pointer; font-weight: bold; font-family: 'Oswald', sans-serif; border-radius: 4px; text-transform: uppercase; font-size: 0.8rem; }
+    button.btn-sec { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-right: 5px; }
+    button.btn-sec:hover { background: rgba(207, 161, 68, 0.1); }
 
+    /* INPUTS & MODALS */
     input, select { background: #000; border: 1px solid #333; color: white; padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 4px; }
-    input:focus { border-color: var(--gold); outline: none; }
-
-    /* TOAST */
+    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 1500; justify-content: center; align-items: center; }
+    .modal-box { background: #141414; padding: 30px; border-radius: 8px; width: 350px; border: 1px solid #333; }
+    .modal-box h3 { color: var(--gold); margin-top: 0; font-family: 'Oswald'; }
+    
     #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
     .toast { background: #111; color: white; padding: 15px 20px; border-radius: 6px; border-left: 4px solid var(--gold); box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; font-size: 0.9rem; animation: slideIn 0.3s ease-out; width: 300px; }
     .toast.error { border-left-color: #d32f2f; }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-    /* MODAL */
-    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 1500; justify-content: center; align-items: center; }
-    .modal-box { background: #141414; padding: 30px; border-radius: 8px; width: 350px; border: 1px solid #333; }
-    .modal-box h3 { color: var(--gold); margin-top: 0; font-family: 'Oswald'; }
 
     #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: #000; z-index: 999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
     .view { display: none; animation: fadeIn 0.3s; }
@@ -73,7 +66,7 @@
 
 <div id="modalInput" class="modal-overlay">
   <div class="modal-box">
-    <h3 id="modalTitle">Novo Item</h3>
+    <h3 id="modalTitle">...</h3>
     <div id="modalContent"></div>
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px">
       <button onclick="closeModal()" style="background:transparent; border:1px solid #444; color:#aaa; padding:8px 15px; cursor:pointer; border-radius:4px">Cancelar</button>
@@ -98,7 +91,13 @@
 
 <div class="main">
   <div id="agenda" class="view active">
-    <h1>AGENDA <button class="btn-p" onclick="openAddSlot()">+ Horário</button></h1>
+    <h1>
+      AGENDA
+      <div>
+        <button class="btn-sec" onclick="openBulkCreate()">Gerar Dia</button>
+        <button class="btn-p" onclick="openAddSlot()">+ 1</button>
+      </div>
+    </h1>
     <div class="card">
       <div style="display:flex; gap:10px; margin-bottom:10px">
         <input type="date" id="filtroData" onchange="loadAgenda()">
@@ -125,8 +124,8 @@
 </div>
 
 <script>
-  // ⚠️ ATUALIZE SEU LINK AQUI
-  const API = "https://script.google.com/macros/s/AKfycbyMM-PU7pKtaXQk5zML4BYj6ifHLpl2TyhX91lKwLbyOA3QUr8r_Uf3FSFKf9WhD_E/exec"; 
+  // ⚠️ ATUALIZE O LINK AQUI
+  const API = "https://script.google.com/macros/s/AKfycbzrrfcjb1vViVw42ppwAVgmeSq0qNhhzfuG5s1fCiNoDf7OIekz_DkDyZ1548BM4DE/exec"; 
   let TOKEN = "";
 
   document.getElementById('pass').addEventListener('keypress', function (e) { if (e.key === 'Enter') login(); });
@@ -175,25 +174,62 @@
     if(id==='colabs') loadBarbeiros();
   }
 
-  // --- MODAL & LOGIC ---
+  // --- MODALS DE CADASTRO ---
   function closeModal() { document.getElementById('modalInput').style.display='none'; }
   
   function openAddService() {
     document.getElementById('modalTitle').innerText = "Novo Serviço";
-    document.getElementById('modalContent').innerHTML = `<input id="newSvcName" placeholder="Nome do Corte"><input id="newSvcVal" placeholder="Valor (ex: 40,00)">`;
+    document.getElementById('modalContent').innerHTML = `<input id="newSvcName" placeholder="Nome"><input id="newSvcVal" placeholder="Valor (ex: 40,00)">`;
     document.getElementById('modalConfirmBtn').onclick = () => {
       const n = document.getElementById('newSvcName').value; const v = document.getElementById('newSvcVal').value;
-      if(n && v) req('addService', {nome:n, valor:v}).then(()=>{ closeModal(); loadServicos(); showToast("Serviço Salvo"); });
+      if(n && v) req('addService', {nome:n, valor:v}).then(()=>{ closeModal(); loadServicos(); showToast("Salvo!"); });
     };
     document.getElementById('modalInput').style.display='flex';
   }
 
   function openAddSlot() {
-    document.getElementById('modalTitle').innerText = "Novo Horário";
+    document.getElementById('modalTitle').innerText = "Horário Único";
     document.getElementById('modalContent').innerHTML = `<input id="newSlotDate" type="date" value="${document.getElementById('filtroData').value}"><input id="newSlotTime" type="time">`;
     document.getElementById('modalConfirmBtn').onclick = () => {
       const d = document.getElementById('newSlotDate').value; const h = document.getElementById('newSlotTime').value;
-      if(d && h) req('addSingle', {data:d, hora:h}).then(()=>{ closeModal(); loadAgenda(); showToast("Horário Criado"); });
+      if(d && h) req('addSingle', {data:d, hora:h}).then(()=>{ closeModal(); loadAgenda(); showToast("Criado!"); });
+    };
+    document.getElementById('modalInput').style.display='flex';
+  }
+
+  // 🔥 NOVA JANELA DE GERAR DIA EM LOTE
+  function openBulkCreate() {
+    document.getElementById('modalTitle').innerText = "Gerar Dia Inteiro";
+    document.getElementById('modalContent').innerHTML = `
+      <label style="color:#aaa;font-size:0.8rem">Data</label>
+      <input id="bulkDate" type="date" value="${document.getElementById('filtroData').value}">
+      <div style="display:flex; gap:10px">
+        <div style="flex:1"><label style="color:#aaa;font-size:0.8rem">Início</label><input id="bulkStart" type="time" value="09:00"></div>
+        <div style="flex:1"><label style="color:#aaa;font-size:0.8rem">Fim</label><input id="bulkEnd" type="time" value="19:00"></div>
+      </div>
+      <label style="color:#aaa;font-size:0.8rem">Intervalo (Minutos)</label>
+      <select id="bulkInt">
+        <option value="30">30 min</option>
+        <option value="40" selected>40 min</option>
+        <option value="45">45 min</option>
+        <option value="60">60 min (1h)</option>
+      </select>
+    `;
+    document.getElementById('modalConfirmBtn').onclick = () => {
+      const d = document.getElementById('bulkDate').value;
+      const ini = document.getElementById('bulkStart').value;
+      const fim = document.getElementById('bulkEnd').value;
+      const int = document.getElementById('bulkInt').value;
+      
+      // Bloqueia botão para evitar duplo clique
+      const btn = document.getElementById('modalConfirmBtn');
+      btn.innerText = "Gerando..."; btn.disabled = true;
+
+      req('addBulk', {data:d, inicio:ini, fim:fim, intervalo:int}).then((res)=>{ 
+        closeModal(); 
+        loadAgenda(); 
+        showToast(res || "Horários gerados!"); 
+      }).finally(()=>{ btn.innerText = "Salvar"; btn.disabled = false; });
     };
     document.getElementById('modalInput').style.display='flex';
   }
@@ -203,48 +239,38 @@
     document.getElementById('modalContent').innerHTML = `<input id="newColabName" placeholder="Nome">`;
     document.getElementById('modalConfirmBtn').onclick = () => {
       const n = document.getElementById('newColabName').value;
-      if(n) req('addColab', {nome:n, role:"Barbeiro"}).then(()=>{ closeModal(); loadBarbeiros(); showToast("Barbeiro Adicionado"); });
+      if(n) req('addColab', {nome:n, role:"Barbeiro"}).then(()=>{ closeModal(); loadBarbeiros(); showToast("Adicionado!"); });
     };
     document.getElementById('modalInput').style.display='flex';
   }
 
-  // --- LOADERS OTIMIZADOS ---
+  // --- LISTAS ---
   function loadAgenda() {
     const d = document.getElementById('filtroData').value;
     document.getElementById('agenda-list').innerHTML = '<div style="color:#666;text-align:center">Atualizando...</div>';
-    
     req('listSlots', {filtroData:d}).then(list => {
       const div = document.getElementById('agenda-list'); div.innerHTML = '';
-      if(!list || !list.length) { div.innerHTML = '<div style="text-align:center;padding:20px;color:#666">Nenhum horário para hoje.</div>'; return; }
+      if(!list || !list.length) { div.innerHTML = '<div style="text-align:center;padding:20px;color:#666">Nenhum horário hoje.</div>'; return; }
       
       list.forEach(i => {
         let isBooked = i.status === 'Agendado';
-        
-        // Limpa telefone para link do WhatsApp
         let cleanTel = i.tel ? i.tel.replace(/\D/g, '') : '';
+        let btnWhats = (isBooked && cleanTel) ? `<a href="https://wa.me/55${cleanTel}" target="_blank" class="btn-icon btn-whats"><i class="fab fa-whatsapp"></i></a>` : '';
         
-        // Botão WhatsApp (Só aparece se tiver telefone)
-        let btnWhats = (isBooked && cleanTel) 
-          ? `<a href="https://wa.me/55${cleanTel}" target="_blank" class="btn-icon btn-whats" title="Chamar no Zap"><i class="fab fa-whatsapp"></i></a>` 
-          : '';
-
         let actions = isBooked 
-          ? `${btnWhats} <button class="btn-icon btn-del" onclick="if(confirm('Cancelar agendamento de ${i.cliente}?')) req('cancel',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Cancelado')})" title="Cancelar"><i class="fas fa-ban"></i></button>`
-          : `<button class="btn-icon btn-del" onclick="if(confirm('Excluir horário vago?')) req('deleteSlot',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Excluído')})" title="Excluir"><i class="fas fa-trash"></i></button>`;
+          ? `${btnWhats} <button class="btn-icon btn-del" onclick="if(confirm('Cancelar?')) req('cancel',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Cancelado')})"><i class="fas fa-ban"></i></button>`
+          : `<button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('deleteSlot',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Excluído')})"><i class="fas fa-trash"></i></button>`;
         
-        let info = isBooked 
-          ? `<div class="client-name">${i.cliente}</div>
-             <div class="service-name"><i class="fas fa-cut"></i> ${i.servicos}</div>
-             <div class="contact-info">
-                <span><i class="fas fa-money-bill"></i> ${i.valor}</span>
-                <span><i class="fas fa-phone"></i> ${i.tel}</span>
-             </div>`
-          : `<div style="color:#444; font-style:italic; padding-top:5px">Horário Disponível</div>`;
-
         div.innerHTML += `
           <div class="agenda-item ${isBooked ? 'booked' : ''}">
             <div class="time-box">${i.hora}<span>${isBooked ? 'OCUP' : 'LIVRE'}</span></div>
-            <div class="info-box">${info}</div>
+            <div class="info-box">
+              ${isBooked 
+                ? `<div class="client-name">${i.cliente}</div>
+                   <div class="service-name"><i class="fas fa-cut"></i> ${i.servicos}</div>
+                   <div class="contact-info"><span><i class="fas fa-money-bill"></i> ${i.valor}</span></div>`
+                : `<div style="color:#444;font-style:italic;padding-top:5px">Disponível</div>`}
+            </div>
             <div class="actions-box">${actions}</div>
           </div>`;
       });
@@ -257,7 +283,7 @@
       l.forEach(s => {
         d.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center">
           <div><div style="font-weight:bold;color:white">${s.nome}</div><div style="color:var(--gold)">R$ ${s.valor}</div></div>
-          <button class="btn-icon btn-del" onclick="if(confirm('Apagar?')) req('delService',{id:${s.id}}).then(()=>{loadServicos();showToast('Serviço Apagado')})"><i class="fas fa-trash"></i></button>
+          <button class="btn-icon btn-del" onclick="if(confirm('Apagar?')) req('delService',{id:${s.id}}).then(()=>{loadServicos();showToast('Apagado')})"><i class="fas fa-trash"></i></button>
         </div>`;
       });
     });
