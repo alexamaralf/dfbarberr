@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DF Barber | Agendamento</title>
+  <title>Douglas Fraga | DF Barber</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -20,7 +20,21 @@
     .container { max-width: 480px; margin: 0 auto; }
     
     /* HEADER & LOGO */
-    header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
+    header { text-align: center; margin-bottom: 40px; margin-top: 10px; }
+    
+    .owner-name {
+      font-family: 'Oswald', sans-serif;
+      color: var(--text-main);
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 300;
+      border-bottom: 1px solid #333;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
     .brand-df { 
       font-family: 'Oswald', sans-serif; font-size: 3.5rem; font-weight: 700; line-height: 1; 
       color: var(--gold); border: 3px solid var(--gold); padding: 5px 15px; display: inline-block; 
@@ -53,16 +67,14 @@
       transition: 0.3s;
     }
     .btn-encaixe:hover { background: rgba(207, 161, 68, 0.1); transform: translateY(-2px); }
-    .btn-encaixe i { margin-right: 8px; }
 
-    /* REDES SOCIAIS FLUTUANTES */
+    /* REDES SOCIAIS */
     .social-float { position: fixed; bottom: 100px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 90; }
     .float-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.2s; }
     .float-btn:hover { transform: scale(1.1); }
     .bg-whats { background: #25D366; }
     .bg-insta { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
 
-    /* BARRA TOTAL */
     .total-bar { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); width: 90%; max-width: 480px; background: rgba(20, 20, 20, 0.95); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 100; backdrop-filter: blur(10px); opacity: 0; pointer-events: none; }
     .total-bar.visible { transform: translate(-50%, 0); opacity: 1; pointer-events: all; }
     .btn-agendar { background: var(--gold); color: #000; border: none; padding: 12px 30px; border-radius: 30px; font-family: 'Oswald', sans-serif; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 1px; }
@@ -78,16 +90,19 @@
 
     .calendar-options { display: flex; gap: 10px; flex-direction: column; margin-top: 20px; }
     .btn-cal { text-decoration: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s; color: white; border: 1px solid #333; background: #222; }
-    .btn-google { background: #202020; }
     
-    .footer { text-align: center; margin-top: 60px; font-size: 0.75rem; color: #333; text-transform: uppercase; letter-spacing: 2px; }
+    .footer { text-align: center; margin-top: 60px; font-size: 0.75rem; color: #444; text-transform: uppercase; letter-spacing: 1px; line-height: 1.5; }
+    .footer strong { color: #666; }
   </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <div class="brand-df">DF</div><div class="brand-text">Barber</div>
+    <div class="owner-name">Douglas Fraga</div>
+    <div>
+      <div class="brand-df">DF</div><div class="brand-text">Barber</div>
+    </div>
   </header>
 
   <div class="section-title"><i class="fas fa-cut"></i> Serviços</div>
@@ -103,12 +118,8 @@
 </div>
 
 <div class="social-float">
-  <a href="https://www.instagram.com/df_barberr/" target="_blank" class="float-btn bg-insta" title="Instagram">
-    <i class="fab fa-instagram"></i>
-  </a>
-  <a href="https://wa.me/5511913069727" target="_blank" class="float-btn bg-whats" title="WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+  <a href="https://www.instagram.com/df_barberr/" target="_blank" class="float-btn bg-insta" title="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://wa.me/5511913069727" target="_blank" class="float-btn bg-whats" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
 </div>
 
 <div id="bar" class="total-bar">
@@ -116,7 +127,10 @@
   <button class="btn-agendar" onclick="openModal('modalForm')">Agendar <i class="fas fa-arrow-right"></i></button>
 </div>
 
-<div class="footer">&copy; 2025 DF Barber</div>
+<div class="footer">
+  &copy; 2025 Douglas Fraga • DF Barber<br>
+  <span style="opacity:0.6; font-size:0.7rem">Criado por: Alex Amaral</span>
+</div>
 
 <div id="modalForm" class="modal-overlay">
   <div class="modal-box">
@@ -134,25 +148,21 @@
     <div class="success-icon"><i class="fas fa-check-circle"></i></div>
     <h2 style="color:white; margin:0; font-family:'Oswald'">AGENDADO!</h2>
     <p style="color:#888; font-size:0.9rem; margin-top:10px">Seu horário está garantido.</p>
-    
     <div style="margin-top:20px; text-align:left; font-size:0.85rem; color:#ccc; background:#222; padding:15px; border-radius:6px">
       <div><strong style="color:var(--gold)">Serviço:</strong> <span id="resumoServico">...</span></div>
       <div style="margin-top:5px"><strong style="color:var(--gold)">Horário:</strong> <span id="resumoData">...</span></div>
     </div>
-
     <div class="calendar-options">
-      <a id="linkGoogle" target="_blank" class="btn-cal btn-google"><i class="fab fa-google"></i> Google Agenda</a>
+      <a id="linkGoogle" target="_blank" class="btn-cal"><i class="fab fa-google"></i> Google Agenda</a>
       <a id="linkOutlook" target="_blank" class="btn-cal"><i class="fab fa-microsoft"></i> Outlook</a>
       <a id="linkApple" download="agendamento.ics" class="btn-cal"><i class="fab fa-apple"></i> Apple / iCal</a>
     </div>
-
     <div onclick="location.reload()" style="margin-top:20px; color:#666; cursor:pointer; font-size:0.75rem;">FECHAR</div>
   </div>
 </div>
 
 <script>
-  // ⚠️ URL DE IMPLANTAÇÃO (MANTIDA A ÚLTIMA FORNECIDA)
-  const API_URL = "https://script.google.com/macros/s/AKfycbzrrfcjb1vViVw42ppwAVgmeSq0qNhhzfuG5s1fCiNoDf7OIekz_DkDyZ1548BM4DE/exec"; 
+  const API_URL = "https://script.google.com/macros/s/AKfycbyMM-PU7pKtaXQk5zML4BYj6ifHLpl2TyhX91lKwLbyOA3QUr8r_Uf3FSFKf9WhD_E/exec"; 
 
   let total = 0;
   let servicos = [];
@@ -220,11 +230,8 @@
     const n = document.getElementById('name').value;
     const t = document.getElementById('tel').value;
     if(!n || t.length < 10) return alert("Preencha os dados!");
-    
     const btn = document.getElementById('btnSend'); btn.innerText = "AGENDANDO...";
-    
     setupCalendar(n);
-
     api('book', {
       rowIndex: selectedSlot.rowIndex,
       nome: n, telefone: t, servicos: servicos.join(', '),
@@ -240,16 +247,14 @@
   function setupCalendar(clientName) {
     const start = new Date(`${selectedSlot.data}T${selectedSlot.hora}:00`);
     const end = new Date(start.getTime() + 60*60000); 
-
-    const title = "Barbearia DF Barber";
+    const title = "Douglas Fraga | DF Barber";
     const details = `Cliente: ${clientName} | Serviços: ${servicos.join(', ')}`;
     const loc = "DF Barber Studio";
-
     const fmtG = (d) => d.toISOString().replace(/-|:|\.\d\d\d/g,"");
+    
     document.getElementById('linkGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmtG(start)}/${fmtG(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(loc)}`;
-
     document.getElementById('linkOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${start.toISOString()}&enddt=${end.toISOString()}&subject=${encodeURIComponent(title)}&body=${encodeURIComponent(details)}&location=${encodeURIComponent(loc)}`;
-
+    
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:${document.URL}\nDTSTART:${fmtG(start)}\nDTEND:${fmtG(end)}\nSUMMARY:${title}\nDESCRIPTION:${details}\nLOCATION:${loc}\nEND:VEVENT\nEND:VCALENDAR`;
     document.getElementById('linkApple').href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
   }
