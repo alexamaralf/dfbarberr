@@ -19,13 +19,11 @@
     }
     .container { max-width: 480px; margin: 0 auto; }
     
-    /* HEADER */
     header { text-align: center; margin-bottom: 40px; margin-top: 10px; }
     .owner-name { font-family: 'Oswald', sans-serif; color: var(--text-main); font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 300; border-bottom: 1px solid #333; display: inline-block; padding-bottom: 5px; }
     .brand-df { font-family: 'Oswald', sans-serif; font-size: 3.5rem; font-weight: 700; line-height: 1; color: var(--gold); border: 3px solid var(--gold); padding: 5px 15px; display: inline-block; letter-spacing: -2px; text-shadow: 0 0 20px rgba(207, 161, 68, 0.2); }
     .brand-text { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 8px; margin-top: 8px; text-transform: uppercase; padding-left: 8px; }
 
-    /* UI ELEMENTS */
     .section-title { color: var(--text-muted); font-family: 'Oswald', sans-serif; font-size: 0.9rem; text-transform: uppercase; margin: 35px 0 15px 0; display: flex; align-items: center; gap: 12px; letter-spacing: 1px; }
     .section-title i { color: var(--gold); }
     .section-title::after { content:''; flex:1; height:1px; background: #333; }
@@ -55,14 +53,12 @@
     .btn-agendar { background: var(--gold); color: #000; border: none; padding: 12px 30px; border-radius: 30px; font-family: 'Oswald', sans-serif; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 1px; }
     .total-val { font-size: 1.3rem; font-family: 'Oswald', sans-serif; color: white; font-weight: bold; }
 
-    /* MODAL */
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
     .modal-box { background: #141414; width: 90%; max-width: 380px; padding: 40px 30px; border-radius: 12px; border: 1px solid #333; text-align: center; border-top: 4px solid var(--gold); position:relative; }
     
-    input { width: 100%; padding: 15px; margin: 8px 0; background: #0a0a0a; border: 1px solid #333; color: white; font-family: 'Montserrat', sans-serif; border-radius: 4px; }
-    input:focus { outline: none; border-color: var(--gold); }
+    input, select { width: 100%; padding: 15px; margin: 8px 0; background: #0a0a0a; border: 1px solid #333; color: white; font-family: 'Montserrat', sans-serif; border-radius: 4px; }
+    input:focus, select:focus { outline: none; border-color: var(--gold); }
 
-    /* OPÇÕES DE PAGAMENTO */
     .pay-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; margin-top: 5px; }
     .pay-opt { background: #222; border: 1px solid #444; color: #aaa; padding: 10px 5px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
     .pay-opt i { font-size: 1.2rem; }
@@ -80,7 +76,21 @@
 
     .calendar-options { display: flex; gap: 10px; flex-direction: column; margin-top: 20px; }
     .btn-cal { text-decoration: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s; color: white; border: 1px solid #333; background: #222; }
+    
     .footer { text-align: center; margin-top: 60px; font-size: 0.75rem; color: #444; text-transform: uppercase; letter-spacing: 1px; line-height: 1.5; }
+    /* --- Animações adicionais --- */
+    .service-card { transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms; }
+    .service-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 14px 40px rgba(0,0,0,0.6); }
+    .slot-btn { transition: transform 180ms ease, box-shadow 180ms ease; }
+    .slot-btn:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+    .float-btn { transition: transform 360ms cubic-bezier(.2,.9,.2,1); }
+    .float-btn:hover { transform: translateY(-6px) scale(1.05); }
+    .float-btn.pulse { animation: floatPulse 3.6s infinite; }
+    @keyframes floatPulse { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
+    .total-bar { transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease; }
+    .service-card.selected { box-shadow: 0 18px 50px rgba(207,161,68,0.12); }
+    /* ripple base */
+    .ripple { position: absolute; border-radius: 50%; transform: scale(0); background: rgba(255,255,255,0.08); pointer-events: none; }
   </style>
 </head>
 <body>
@@ -121,9 +131,13 @@
   <div class="modal-box">
     <h2 style="color:white; margin-top:0; font-family:'Oswald'">DADOS</h2>
     
-    <label style="color:#888; font-size:0.8rem; display:block; text-align:left; margin-bottom:5px">Seus Dados</label>
     <input type="text" id="name" placeholder="Nome Completo">
     <input type="tel" id="tel" placeholder="WhatsApp (DDD)" oninput="mask(this)">
+
+    <label style="color:#888; font-size:0.8rem; display:block; text-align:left; margin-top:15px; margin-bottom:5px">Profissional</label>
+    <select id="selBarber">
+      <option value="">Qualquer um (Disponível)</option>
+    </select>
     
     <label style="color:#888; font-size:0.8rem; display:block; text-align:left; margin-top:20px; margin-bottom:5px">Forma de Pagamento</label>
     <div class="pay-grid">
@@ -162,20 +176,35 @@
 </div>
 
 <script>
-  // URL ATUALIZADA
-  const API_URL = "https://script.google.com/macros/s/AKfycbyYv0t7DP4zKuSvXH0F1moh1rVII0txlYKtH2c7V9VEMPs_Cxj3_qQJv00LisHmtKE/exec"; 
+  const API_URL = "https://script.google.com/macros/s/AKfycbyaSjni51rews8kfyJjjGOxjFRT52I223L2_HPp6ZNNqL2ad1cTlYH_L5LD_WnfMb0/exec"; 
 
   let total = 0;
   let servicos = [];
   let selectedSlot = null;
   let paymentMethod = "";
 
-  window.onload = () => { loadServices(); loadSlots(); };
+  window.onload = () => { 
+    loadServices(); 
+    loadSlots(); 
+    loadBarbers();
+  };
 
   async function api(act, p = {}) {
     const res = await fetch(API_URL, { method:"POST", body: JSON.stringify({action:act, ...p}) });
     const j = await res.json();
     return j.data;
+  }
+
+  function loadBarbers() {
+    api('getBarbersPublic').then(list => {
+      const sel = document.getElementById('selBarber');
+      list.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b.nome;
+        opt.innerText = b.nome;
+        sel.appendChild(opt);
+      });
+    });
   }
 
   function loadServices() {
@@ -228,7 +257,6 @@
   function closeModal(id) { document.getElementById(id).style.display = 'none'; }
   function mask(o) { o.value = o.value.replace(/\D/g,"").replace(/^(\d{2})(\d)/g,"($1) $2").replace(/(\d)(\d{4})$/,"$1-$2"); }
 
-  // PAGAMENTO
   function selPay(method, el) {
     document.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
@@ -246,19 +274,21 @@
   function send() {
     const n = document.getElementById('name').value;
     const t = document.getElementById('tel').value;
+    const barb = document.getElementById('selBarber').value; 
+
     if(!n || t.length < 10) return alert("Preencha Nome e WhatsApp!");
     if(!paymentMethod) return alert("Selecione uma forma de pagamento!");
 
     const btn = document.getElementById('btnSend'); btn.innerText = "AGENDANDO...";
     setupCalendar(n);
 
-    // Concatena Pagamento no Valor para o Admin ver
     const valFinal = document.getElementById('totalVal').innerText + " (" + paymentMethod + ")";
 
     api('book', {
       rowIndex: selectedSlot.rowIndex,
       nome: n, telefone: t, servicos: servicos.join(', '),
-      valor: valFinal
+      valor: valFinal,
+      barbeiro: barb 
     }).then(() => {
       closeModal('modalForm');
       document.getElementById('resumoServico').innerText = servicos.join(', ');
@@ -279,6 +309,42 @@
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:${document.URL}\nDTSTART:${fmtG(start)}\nDTEND:${fmtG(end)}\nSUMMARY:${title}\nDESCRIPTION:${details}\nLOCATION:${loc}\nEND:VEVENT\nEND:VCALENDAR`;
     document.getElementById('linkApple').href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
   }
+
+  /* UI Enhancements: ripple, reveal, float pulse and total bar animation */
+  function initUIEnhancements(){
+    // ripple for interactive elements
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('.service-card, .slot-btn, .btn-agendar, .btn-encaixe, .pay-opt, .float-btn');
+      if(!btn) return;
+      const rect = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height) * 1.4;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      btn.style.position = btn.style.position || 'relative';
+      btn.appendChild(ripple);
+      requestAnimationFrame(()=> ripple.style.transform = 'scale(1)');
+      setTimeout(()=>{ ripple.style.transition = 'opacity 420ms ease'; ripple.style.opacity = '0'; }, 260);
+      setTimeout(()=> ripple.remove(), 900);
+    });
+
+    // reveal service cards and slots
+    const obs = new IntersectionObserver((entries)=>{ entries.forEach(en=>{ if(en.isIntersecting){ en.target.style.opacity=1; en.target.style.transform='translateY(0)'; obs.unobserve(en.target); } }); }, { threshold: 0.06 });
+    document.querySelectorAll('.service-card, .slot-btn').forEach(el=>{ el.style.opacity=0; el.style.transform='translateY(10px)'; obs.observe(el); });
+
+    // subtle pulse on social float
+    document.querySelectorAll('.float-btn').forEach(b=> b.classList.add('pulse'));
+
+    // animate total bar when visible class toggled
+    const bar = document.getElementById('bar');
+    const mo = new MutationObserver(()=>{
+      if(bar.classList.contains('visible')){ bar.style.transform = 'translate(-50%, 0)'; bar.style.opacity = '1'; } else { bar.style.transform = 'translate(-50%, 100px)'; bar.style.opacity = '0'; }
+    });
+    mo.observe(bar, { attributes: true, attributeFilter: ['class'] });
+  }
+  window.addEventListener('load', initUIEnhancements);
 </script>
 </body>
 </html>
