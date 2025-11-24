@@ -22,6 +22,15 @@
     h1 { font-family: 'Oswald', sans-serif; color: white; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px; }
     .card { background: var(--card); padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #222; }
 
+    /* DASHBOARD CARDS */
+    .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .kpi-card { background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; border-left: 4px solid var(--gold); position: relative; overflow: hidden; }
+    .kpi-title { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .kpi-val { font-family: 'Oswald'; font-size: 2rem; color: white; }
+    .kpi-icon { position: absolute; right: 20px; top: 20px; font-size: 2rem; color: #222; }
+
+    /* AGENDA */
+    .date-separator { font-family: 'Oswald'; font-size: 1.1rem; color: var(--gold); margin: 20px 0 10px 0; border-bottom: 1px dashed #333; padding-bottom: 5px; }
     .agenda-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #222; align-items: center; background: #0f0f0f; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid transparent; }
     .agenda-item.booked { border-left-color: var(--gold); background: #181818; }
     .time-box { font-family: 'Oswald'; font-size: 1.5rem; color: white; min-width: 70px; text-align: center; line-height: 1; }
@@ -31,6 +40,7 @@
     .service-name { color: var(--gold); font-size: 0.85rem; }
     .contact-info { color: #888; font-size: 0.8rem; margin-top: 4px; display: flex; gap: 15px; }
 
+    .actions-box { display: flex; gap: 8px; }
     .btn-icon { width: 35px; height: 35px; border-radius: 4px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-del { background: rgba(211, 47, 47, 0.1); color: #d32f2f; border: 1px solid #d32f2f; }
     .btn-del:hover { background: #d32f2f; color: white; }
@@ -85,7 +95,8 @@
     <div class="logo-owner">Douglas Fraga</div>
     <div class="logo-brand">DF ADMIN</div>
   </div>
-  <button class="nav-btn active" onclick="show('agenda')"><i class="fas fa-calendar-alt"></i> Agenda</button>
+  <button class="nav-btn active" onclick="show('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</button>
+  <button class="nav-btn" onclick="show('agenda')"><i class="fas fa-calendar-alt"></i> Agenda</button>
   <button class="nav-btn" onclick="show('servicos')"><i class="fas fa-cut"></i> Serviços</button>
   <button class="nav-btn" onclick="show('colabs')"><i class="fas fa-user-tie"></i> Barbeiros</button>
   <button class="nav-btn" onclick="show('clientes')"><i class="fas fa-users"></i> Clientes</button>
@@ -93,7 +104,34 @@
 </div>
 
 <div class="main">
-  <div id="agenda" class="view active">
+  
+  <div id="dashboard" class="view active">
+    <h1>VISÃO GERAL <button class="btn-sec" onclick="loadDash()"><i class="fas fa-sync"></i></button></h1>
+    
+    <div class="dash-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Faturamento Hoje</div>
+        <div class="kpi-val" id="kpiHoje">R$ 0,00</div>
+        <div class="kpi-icon"><i class="fas fa-coins"></i></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Agendamentos Hoje</div>
+        <div class="kpi-val" id="kpiQtd">0</div>
+        <div class="kpi-icon"><i class="fas fa-user-clock"></i></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Previsão (Mês/Futuro)</div>
+        <div class="kpi-val" id="kpiMes">R$ 0,00</div>
+        <div class="kpi-icon"><i class="fas fa-calendar-check"></i></div>
+      </div>
+    </div>
+    
+    <div class="card" style="text-align:center; color:#666">
+      <p>Selecione "Agenda" para gerenciar os horários.</p>
+    </div>
+  </div>
+
+  <div id="agenda" class="view">
     <h1>
       AGENDA
       <div><button class="btn-sec" onclick="openBulkCreate()">Gerar Dia</button><button class="btn-p" onclick="openAddSlot()">+ 1</button></div>
@@ -101,7 +139,7 @@
     <div class="card">
       <div style="display:flex; gap:10px; margin-bottom:10px">
         <input type="date" id="filtroData" onchange="loadAgenda()">
-        <button class="btn-p" style="width:auto" onclick="loadAgenda()"><i class="fas fa-sync"></i></button>
+        <button class="btn-p" style="width:auto" onclick="clearDateAndLoad()" title="Mostrar Próximos"><i class="fas fa-infinity"></i></button>
       </div>
       <div id="agenda-list">Carregando...</div>
     </div>
@@ -113,12 +151,13 @@
 </div>
 
 <script>
-  const API = "https://script.google.com/macros/s/AKfycbyMM-PU7pKtaXQk5zML4BYj6ifHLpl2TyhX91lKwLbyOA3QUr8r_Uf3FSFKf9WhD_E/exec"; 
+  // URL ATUALIZADA
+  const API = "https://script.google.com/macros/s/AKfycbyYv0t7DP4zKuSvXH0F1moh1rVII0txlYKtH2c7V9VEMPs_Cxj3_qQJv00LisHmtKE/exec"; 
   let TOKEN = "";
 
   document.getElementById('pass').addEventListener('keypress', function (e) { if (e.key === 'Enter') login(); });
   function showToast(msg, t="success") { const b=document.createElement('div'); b.className=`toast ${t}`; b.innerHTML=`<i class="fas ${t=='success'?'fa-check-circle':'fa-exclamation-circle'}"></i><span>${msg}</span>`; document.getElementById('toast-container').appendChild(b); setTimeout(()=>b.remove(),3000); }
-  function login() { TOKEN=document.getElementById('pass').value; if(TOKEN){ document.getElementById('login-overlay').style.display='none'; document.getElementById('filtroData').valueAsDate=new Date(); loadAgenda(); showToast("Bem-vindo"); } }
+  function login() { TOKEN=document.getElementById('pass').value; if(TOKEN){ document.getElementById('login-overlay').style.display='none'; loadDash(); showToast("Bem-vindo"); } }
   
   async function req(act, p={}) {
     try { const r=await fetch(API,{method:"POST",body:JSON.stringify({action:act,token:TOKEN,...p})}); const j=await r.json(); if(!j.success){showToast(j.error||"Erro","error");return null;} return j.data; }
@@ -129,50 +168,79 @@
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    
     const btns = document.querySelectorAll('.nav-btn');
-    if(id=='agenda') btns[0].classList.add('active');
-    if(id=='servicos') btns[1].classList.add('active');
-    if(id=='colabs') btns[2].classList.add('active');
-    if(id=='clientes') { btns[3].classList.add('active'); loadClientes(); }
-    if(id==='agenda') loadAgenda();
-    if(id==='servicos') loadServicos();
-    if(id==='colabs') loadBarbeiros();
+    // 0:Dash, 1:Agenda, 2:Serv, 3:Colab, 4:Cli
+    if(id=='dashboard') { btns[0].classList.add('active'); loadDash(); }
+    if(id=='agenda') { btns[1].classList.add('active'); loadAgenda(); }
+    if(id=='servicos') { btns[2].classList.add('active'); loadServicos(); }
+    if(id=='colabs') { btns[3].classList.add('active'); loadBarbeiros(); }
+    if(id=='clientes') { btns[4].classList.add('active'); loadClientes(); }
   }
 
   function closeModal() { document.getElementById('modalInput').style.display='none'; }
-  
-  function openAddService() {
-    document.getElementById('modalTitle').innerText = "Novo Serviço";
-    document.getElementById('modalContent').innerHTML = `<input id="newSvcName" placeholder="Nome"><input id="newSvcVal" placeholder="Valor (ex: 40,00)">`;
-    document.getElementById('modalConfirmBtn').onclick = () => {
-      const n=document.getElementById('newSvcName').value; const v=document.getElementById('newSvcVal').value;
-      if(n&&v) req('addService',{nome:n,valor:v}).then(()=>{closeModal();loadServicos();showToast("Salvo!");});
-    };
-    document.getElementById('modalInput').style.display='flex';
+
+  // DASHBOARD LOAD
+  function loadDash() {
+    req('getDashboard').then(d => {
+      if(d) {
+        document.getElementById('kpiHoje').innerText = "R$ " + d.hoje;
+        document.getElementById('kpiQtd').innerText = d.qtdHoje;
+        document.getElementById('kpiMes').innerText = "R$ " + d.mes;
+      }
+    });
   }
 
-  function openAddSlot() {
-    document.getElementById('modalTitle').innerText = "Horário Único";
-    document.getElementById('modalContent').innerHTML = `<input id="newSlotDate" type="date" value="${document.getElementById('filtroData').value}"><input id="newSlotTime" type="time">`;
-    document.getElementById('modalConfirmBtn').onclick = () => {
-      const d=document.getElementById('newSlotDate').value; const h=document.getElementById('newSlotTime').value;
-      if(d&&h) req('addSingle',{data:d,hora:h}).then(()=>{closeModal();loadAgenda();showToast("Criado!");});
-    };
-    document.getElementById('modalInput').style.display='flex';
+  // AGENDA
+  function clearDateAndLoad() {
+    document.getElementById('filtroData').value = "";
+    loadAgenda();
   }
 
-  function openBulkCreate() {
-    document.getElementById('modalTitle').innerText = "Gerar Dia";
-    document.getElementById('modalContent').innerHTML = `<input id="bd" type="date" value="${document.getElementById('filtroData').value}"><div style="display:flex;gap:10px"><input id="bi" type="time" value="09:00"><input id="bf" type="time" value="19:00"></div><select id="bint"><option value="30">30 min</option><option value="40" selected>40 min</option><option value="60">60 min</option></select>`;
-    document.getElementById('modalConfirmBtn').onclick = () => {
-      const d=document.getElementById('bd').value; const i=document.getElementById('bi').value; const f=document.getElementById('bf').value; const int=document.getElementById('bint').value;
-      const btn=document.getElementById('modalConfirmBtn'); btn.innerText="Gerando..."; btn.disabled=true;
-      req('addBulk',{data:d,inicio:i,fim:f,intervalo:int}).then((res)=>{closeModal();loadAgenda();showToast(res);}).finally(()=>{btn.innerText="Salvar";btn.disabled=false;});
-    };
-    document.getElementById('modalInput').style.display='flex';
+  function loadAgenda() {
+    const d = document.getElementById('filtroData').value;
+    document.getElementById('agenda-list').innerHTML = '<div style="color:#666;text-align:center">Atualizando...</div>';
+    
+    // Se d for vazio, backend entende como "Tudo Futuro"
+    req('listSlots', {filtroData:d}).then(list => {
+      const div = document.getElementById('agenda-list'); div.innerHTML = '';
+      if(!list || !list.length) { div.innerHTML = '<div style="text-align:center;padding:20px;color:#666">Nenhum horário encontrado.</div>'; return; }
+      
+      let lastDate = "";
+
+      list.forEach(i => {
+        // Cabeçalho de Data se mudou o dia
+        if(i.dataFmt !== lastDate) {
+          div.innerHTML += `<div class="date-separator">${i.dataFmt}</div>`;
+          lastDate = i.dataFmt;
+        }
+
+        let isBooked = i.status === 'Agendado';
+        let cleanTel = i.tel ? i.tel.replace(/\D/g, '') : '';
+        let btnWhats = (isBooked && cleanTel) ? `<a href="https://wa.me/55${cleanTel}" target="_blank" class="btn-icon btn-whats"><i class="fab fa-whatsapp"></i></a>` : '';
+        
+        let actions = isBooked 
+          ? `${btnWhats} <button class="btn-icon btn-del" onclick="if(confirm('Cancelar?')) req('cancel',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Cancelado')})"><i class="fas fa-ban"></i></button>`
+          : `<button class="btn-icon btn-book" onclick="openManualBook(${i.rowIndex}, '${i.hora}')" title="Reservar"><i class="fas fa-calendar-plus"></i></button> 
+             <button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('deleteSlot',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Excluído')})"><i class="fas fa-trash"></i></button>`;
+        
+        div.innerHTML += `
+          <div class="agenda-item ${isBooked ? 'booked' : ''}">
+            <div class="time-box">${i.hora}<span>${isBooked ? 'OCUP' : 'LIVRE'}</span></div>
+            <div class="info-box">
+              ${isBooked 
+                ? `<div class="client-name">${i.cliente}</div>
+                   <div class="service-name"><i class="fas fa-cut"></i> ${i.servicos}</div>
+                   <div class="contact-info"><span><i class="fas fa-money-bill"></i> ${i.valor}</span></div>`
+                : `<div style="color:#444;font-style:italic;padding-top:5px">Disponível</div>`}
+            </div>
+            <div class="actions-box">${actions}</div>
+          </div>`;
+      });
+    });
   }
 
-  // MANUAL BOOKING (NOVA FUNÇÃO)
+  // MANUAL BOOKING
   function openManualBook(rowId, time) {
     document.getElementById('modalTitle').innerText = "Reserva Manual (" + time + ")";
     document.getElementById('modalContent').innerHTML = `
@@ -192,6 +260,37 @@
     };
     document.getElementById('modalInput').style.display='flex';
   }
+  
+  function openAddService() {
+    document.getElementById('modalTitle').innerText = "Novo Serviço";
+    document.getElementById('modalContent').innerHTML = `<input id="newSvcName" placeholder="Nome"><input id="newSvcVal" placeholder="Valor (ex: 40,00)">`;
+    document.getElementById('modalConfirmBtn').onclick = () => {
+      const n=document.getElementById('newSvcName').value; const v=document.getElementById('newSvcVal').value;
+      if(n&&v) req('addService',{nome:n,valor:v}).then(()=>{closeModal();loadServicos();showToast("Salvo!");});
+    };
+    document.getElementById('modalInput').style.display='flex';
+  }
+
+  function openAddSlot() {
+    document.getElementById('modalTitle').innerText = "Horário Único";
+    document.getElementById('modalContent').innerHTML = `<input id="newSlotDate" type="date" value="${new Date().toISOString().split('T')[0]}"><input id="newSlotTime" type="time">`;
+    document.getElementById('modalConfirmBtn').onclick = () => {
+      const d=document.getElementById('newSlotDate').value; const h=document.getElementById('newSlotTime').value;
+      if(d&&h) req('addSingle',{data:d,hora:h}).then(()=>{closeModal();loadAgenda();showToast("Criado!");});
+    };
+    document.getElementById('modalInput').style.display='flex';
+  }
+
+  function openBulkCreate() {
+    document.getElementById('modalTitle').innerText = "Gerar Dia";
+    document.getElementById('modalContent').innerHTML = `<input id="bd" type="date" value="${new Date().toISOString().split('T')[0]}"><div style="display:flex;gap:10px"><input id="bi" type="time" value="09:00"><input id="bf" type="time" value="19:00"></div><select id="bint"><option value="30">30 min</option><option value="40" selected>40 min</option><option value="60">60 min</option></select>`;
+    document.getElementById('modalConfirmBtn').onclick = () => {
+      const d=document.getElementById('bd').value; const i=document.getElementById('bi').value; const f=document.getElementById('bf').value; const int=document.getElementById('bint').value;
+      const btn=document.getElementById('modalConfirmBtn'); btn.innerText="Gerando..."; btn.disabled=true;
+      req('addBulk',{data:d,inicio:i,fim:f,intervalo:int}).then((res)=>{closeModal();loadAgenda();showToast(res);}).finally(()=>{btn.innerText="Salvar";btn.disabled=false;});
+    };
+    document.getElementById('modalInput').style.display='flex';
+  }
 
   function openAddColab() {
     document.getElementById('modalTitle').innerText = "Novo Barbeiro";
@@ -203,57 +302,9 @@
     document.getElementById('modalInput').style.display='flex';
   }
 
-  function loadAgenda() {
-    const d = document.getElementById('filtroData').value;
-    document.getElementById('agenda-list').innerHTML = '<div style="color:#666;text-align:center">Atualizando...</div>';
-    req('listSlots', {filtroData:d}).then(list => {
-      const div = document.getElementById('agenda-list'); div.innerHTML = '';
-      if(!list || !list.length) { div.innerHTML = '<div style="text-align:center;padding:20px;color:#666">Nenhum horário hoje.</div>'; return; }
-      
-      list.forEach(i => {
-        let isBooked = i.status === 'Agendado';
-        let cleanTel = i.tel ? i.tel.replace(/\D/g, '') : '';
-        let btnWhats = (isBooked && cleanTel) ? `<a href="https://wa.me/55${cleanTel}" target="_blank" class="btn-icon btn-whats"><i class="fab fa-whatsapp"></i></a>` : '';
-        
-        let actions = isBooked 
-          ? `${btnWhats} <button class="btn-icon btn-del" onclick="if(confirm('Cancelar?')) req('cancel',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Cancelado')})"><i class="fas fa-ban"></i></button>`
-          : `<button class="btn-icon btn-book" onclick="openManualBook(${i.rowIndex}, '${i.hora}')" title="Reservar Manualmente"><i class="fas fa-calendar-plus"></i></button> 
-             <button class="btn-icon btn-del" onclick="if(confirm('Excluir?')) req('deleteSlot',{id:${i.rowIndex}}).then(()=>{loadAgenda();showToast('Excluído')})"><i class="fas fa-trash"></i></button>`;
-        
-        div.innerHTML += `
-          <div class="agenda-item ${isBooked ? 'booked' : ''}">
-            <div class="time-box">${i.hora}<span>${isBooked ? 'OCUP' : 'LIVRE'}</span></div>
-            <div class="info-box">
-              ${isBooked 
-                ? `<div class="client-name">${i.cliente}</div>
-                   <div class="service-name"><i class="fas fa-cut"></i> ${i.servicos}</div>
-                   <div class="contact-info"><span><i class="fas fa-money-bill"></i> ${i.valor}</span></div>`
-                : `<div style="color:#444;font-style:italic;padding-top:5px">Disponível</div>`}
-            </div>
-            <div class="actions-box">${actions}</div>
-          </div>`;
-      });
-    });
-  }
-
-  function loadServicos() {
-    req('getServices').then(l => {
-      const d = document.getElementById('servicos-list'); d.innerHTML = '';
-      l.forEach(s => d.innerHTML += `<div class="card" style="display:flex;justify-content:space-between"><div><strong>${s.nome}</strong><br><span style="color:var(--gold)">R$ ${s.valor}</span></div><button class="btn-icon btn-del" onclick="req('delService',{id:${s.id}}).then(loadServicos)"><i class="fas fa-trash"></i></button></div>`);
-    });
-  }
-  function loadBarbeiros() {
-    req('getColabs').then(l => {
-      const d = document.getElementById('colabs-list'); d.innerHTML = '';
-      l.forEach(c => d.innerHTML += `<div class="card">${c.nome}</div>`);
-    });
-  }
-  function loadClientes() {
-    req('getClients').then(l => {
-      const d = document.getElementById('clientes-list'); d.innerHTML = '';
-      l.forEach(c => d.innerHTML += `<div style="padding:10px;border-bottom:1px solid #333;display:flex;justify-content:space-between"><span>${c.nome}</span> <span>${c.tel}</span></div>`);
-    });
-  }
+  function loadServicos() { req('getServices').then(l => { const d = document.getElementById('servicos-list'); d.innerHTML = ''; l.forEach(s => d.innerHTML += `<div class="card" style="display:flex;justify-content:space-between"><div><strong>${s.nome}</strong><br><span style="color:var(--gold)">R$ ${s.valor}</span></div><button class="btn-icon btn-del" onclick="req('delService',{id:${s.id}}).then(loadServicos)"><i class="fas fa-trash"></i></button></div>`); }); }
+  function loadBarbeiros() { req('getColabs').then(l => { const d = document.getElementById('colabs-list'); d.innerHTML = ''; l.forEach(c => d.innerHTML += `<div class="card">${c.nome}</div>`); }); }
+  function loadClientes() { req('getClients').then(l => { const d = document.getElementById('clientes-list'); d.innerHTML = ''; l.forEach(c => d.innerHTML += `<div style="padding:10px;border-bottom:1px solid #333;display:flex;justify-content:space-between"><span>${c.nome}</span> <span>${c.tel}</span></div>`); }); }
 </script>
 </body>
 </html>
