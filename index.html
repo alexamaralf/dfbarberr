@@ -19,27 +19,10 @@
     }
     .container { max-width: 480px; margin: 0 auto; }
     
-    /* HEADER & LOGO */
+    /* HEADER */
     header { text-align: center; margin-bottom: 40px; margin-top: 10px; }
-    
-    .owner-name {
-      font-family: 'Oswald', sans-serif;
-      color: var(--text-main);
-      font-size: 1.2rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      font-weight: 300;
-      border-bottom: 1px solid #333;
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-
-    .brand-df { 
-      font-family: 'Oswald', sans-serif; font-size: 3.5rem; font-weight: 700; line-height: 1; 
-      color: var(--gold); border: 3px solid var(--gold); padding: 5px 15px; display: inline-block; 
-      letter-spacing: -2px; text-shadow: 0 0 20px rgba(207, 161, 68, 0.2);
-    }
+    .owner-name { font-family: 'Oswald', sans-serif; color: var(--text-main); font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 300; border-bottom: 1px solid #333; display: inline-block; padding-bottom: 5px; }
+    .brand-df { font-family: 'Oswald', sans-serif; font-size: 3.5rem; font-weight: 700; line-height: 1; color: var(--gold); border: 3px solid var(--gold); padding: 5px 15px; display: inline-block; letter-spacing: -2px; text-shadow: 0 0 20px rgba(207, 161, 68, 0.2); }
     .brand-text { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 8px; margin-top: 8px; text-transform: uppercase; padding-left: 8px; }
 
     /* UI ELEMENTS */
@@ -59,19 +42,11 @@
     .slot-btn small { font-size: 0.65rem; color: #666; font-weight: 600; text-transform: uppercase; }
     .slot-btn.selected small { color: #222; }
 
-    /* BOTÃO DE ENCAIXE */
-    .btn-encaixe {
-      display: block; width: 100%; text-align: center; margin-top: 25px;
-      background: transparent; border: 1px dashed var(--gold); color: var(--gold);
-      padding: 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem;
-      transition: 0.3s;
-    }
+    .btn-encaixe { display: block; width: 100%; text-align: center; margin-top: 25px; background: transparent; border: 1px dashed var(--gold); color: var(--gold); padding: 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
     .btn-encaixe:hover { background: rgba(207, 161, 68, 0.1); transform: translateY(-2px); }
 
-    /* REDES SOCIAIS */
     .social-float { position: fixed; bottom: 100px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 90; }
     .float-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.2s; }
-    .float-btn:hover { transform: scale(1.1); }
     .bg-whats { background: #25D366; }
     .bg-insta { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
 
@@ -80,19 +55,32 @@
     .btn-agendar { background: var(--gold); color: #000; border: none; padding: 12px 30px; border-radius: 30px; font-family: 'Oswald', sans-serif; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 1px; }
     .total-val { font-size: 1.3rem; font-family: 'Oswald', sans-serif; color: white; font-weight: bold; }
 
-    /* MODAIS */
+    /* MODAL */
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
     .modal-box { background: #141414; width: 90%; max-width: 380px; padding: 40px 30px; border-radius: 12px; border: 1px solid #333; text-align: center; border-top: 4px solid var(--gold); position:relative; }
+    
     input { width: 100%; padding: 15px; margin: 8px 0; background: #0a0a0a; border: 1px solid #333; color: white; font-family: 'Montserrat', sans-serif; border-radius: 4px; }
     input:focus { outline: none; border-color: var(--gold); }
+
+    /* OPÇÕES DE PAGAMENTO */
+    .pay-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; margin-top: 5px; }
+    .pay-opt { background: #222; border: 1px solid #444; color: #aaa; padding: 10px 5px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+    .pay-opt i { font-size: 1.2rem; }
+    .pay-opt:hover { background: #333; }
+    .pay-opt.active { background: var(--gold); color: black; border-color: var(--gold); font-weight: bold; }
+    
+    .pix-area { display: none; background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; padding: 15px; border-radius: 8px; margin-bottom: 20px; animation: slideDown 0.3s; }
+    @keyframes slideDown { from {opacity:0; transform:translateY(-10px)} to {opacity:1; transform:translateY(0)} }
+    .pix-key { font-family: monospace; background: #000; padding: 8px; border-radius: 4px; margin: 10px 0; color: #fff; border: 1px dashed #555; font-size: 1.1rem; }
+    .btn-copy { background: #25D366; color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+    .btn-copy:active { transform: scale(0.95); }
+
     .success-icon { font-size: 4rem; color: var(--gold); margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
     .calendar-options { display: flex; gap: 10px; flex-direction: column; margin-top: 20px; }
     .btn-cal { text-decoration: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s; color: white; border: 1px solid #333; background: #222; }
-    
     .footer { text-align: center; margin-top: 60px; font-size: 0.75rem; color: #444; text-transform: uppercase; letter-spacing: 1px; line-height: 1.5; }
-    .footer strong { color: #666; }
   </style>
 </head>
 <body>
@@ -100,9 +88,7 @@
 <div class="container">
   <header>
     <div class="owner-name">Douglas Fraga</div>
-    <div>
-      <div class="brand-df">DF</div><div class="brand-text">Barber</div>
-    </div>
+    <div><div class="brand-df">DF</div><div class="brand-text">Barber</div></div>
   </header>
 
   <div class="section-title"><i class="fas fa-cut"></i> Serviços</div>
@@ -128,16 +114,31 @@
 </div>
 
 <div class="footer">
-  &copy; 2025 Douglas Fraga • DF Barber<br>
-  <span style="opacity:0.6; font-size:0.7rem">Criado por: Alex Amaral</span>
+  &copy; 2025 Douglas Fraga • DF Barber<br><span style="opacity:0.6; font-size:0.7rem">Criado por: Alex Amaral</span>
 </div>
 
 <div id="modalForm" class="modal-overlay">
   <div class="modal-box">
     <h2 style="color:white; margin-top:0; font-family:'Oswald'">DADOS</h2>
-    <p style="color:#666; font-size:0.85rem; margin-bottom:25px">Informe seus dados para a reserva.</p>
+    
+    <label style="color:#888; font-size:0.8rem; display:block; text-align:left; margin-bottom:5px">Seus Dados</label>
     <input type="text" id="name" placeholder="Nome Completo">
     <input type="tel" id="tel" placeholder="WhatsApp (DDD)" oninput="mask(this)">
+    
+    <label style="color:#888; font-size:0.8rem; display:block; text-align:left; margin-top:20px; margin-bottom:5px">Forma de Pagamento</label>
+    <div class="pay-grid">
+      <div class="pay-opt" onclick="selPay('Dinheiro', this)"><i class="fas fa-money-bill-wave"></i> Dinheiro</div>
+      <div class="pay-opt" onclick="selPay('Cartão', this)"><i class="fas fa-credit-card"></i> Cartão</div>
+      <div class="pay-opt" onclick="selPay('PIX', this)"><i class="fas fa-qrcode"></i> PIX</div>
+    </div>
+
+    <div id="pixInfo" class="pix-area">
+      <div style="color:#25D366; font-size:0.9rem; font-weight:bold"><i class="fab fa-whatsapp"></i> Chave PIX (Celular)</div>
+      <div class="pix-key" id="pixKey">11913069727</div>
+      <button class="btn-copy" onclick="copyPix()">Copiar Chave</button>
+      <p style="color:#ccc; font-size:0.8rem; margin-top:10px">Envie o comprovante no WhatsApp após confirmar!</p>
+    </div>
+
     <button class="btn-agendar" style="width:100%; margin-top:20px" onclick="send()" id="btnSend">CONFIRMAR</button>
     <div onclick="closeModal('modalForm')" style="margin-top:20px; color:#444; cursor:pointer; font-size:0.75rem; text-decoration:underline">CANCELAR</div>
   </div>
@@ -147,14 +148,13 @@
   <div class="modal-box" style="border-top-color: var(--success);">
     <div class="success-icon"><i class="fas fa-check-circle"></i></div>
     <h2 style="color:white; margin:0; font-family:'Oswald'">AGENDADO!</h2>
-    <p style="color:#888; font-size:0.9rem; margin-top:10px">Seu horário está garantido.</p>
     <div style="margin-top:20px; text-align:left; font-size:0.85rem; color:#ccc; background:#222; padding:15px; border-radius:6px">
       <div><strong style="color:var(--gold)">Serviço:</strong> <span id="resumoServico">...</span></div>
       <div style="margin-top:5px"><strong style="color:var(--gold)">Horário:</strong> <span id="resumoData">...</span></div>
+      <div style="margin-top:5px"><strong style="color:var(--gold)">Pagamento:</strong> <span id="resumoPag">...</span></div>
     </div>
     <div class="calendar-options">
       <a id="linkGoogle" target="_blank" class="btn-cal"><i class="fab fa-google"></i> Google Agenda</a>
-      <a id="linkOutlook" target="_blank" class="btn-cal"><i class="fab fa-microsoft"></i> Outlook</a>
       <a id="linkApple" download="agendamento.ics" class="btn-cal"><i class="fab fa-apple"></i> Apple / iCal</a>
     </div>
     <div onclick="location.reload()" style="margin-top:20px; color:#666; cursor:pointer; font-size:0.75rem;">FECHAR</div>
@@ -167,6 +167,7 @@
   let total = 0;
   let servicos = [];
   let selectedSlot = null;
+  let paymentMethod = "";
 
   window.onload = () => { loadServices(); loadSlots(); };
 
@@ -226,20 +227,42 @@
   function closeModal(id) { document.getElementById(id).style.display = 'none'; }
   function mask(o) { o.value = o.value.replace(/\D/g,"").replace(/^(\d{2})(\d)/g,"($1) $2").replace(/(\d)(\d{4})$/,"$1-$2"); }
 
+  // PAGAMENTO
+  function selPay(method, el) {
+    document.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    paymentMethod = method;
+    document.getElementById('pixInfo').style.display = (method === 'PIX') ? 'block' : 'none';
+  }
+
+  function copyPix() {
+    navigator.clipboard.writeText("11913069727");
+    const btn = document.querySelector('.btn-copy');
+    const old = btn.innerText; btn.innerText = "Copiado!";
+    setTimeout(() => btn.innerText = old, 2000);
+  }
+
   function send() {
     const n = document.getElementById('name').value;
     const t = document.getElementById('tel').value;
-    if(!n || t.length < 10) return alert("Preencha os dados!");
+    if(!n || t.length < 10) return alert("Preencha Nome e WhatsApp!");
+    if(!paymentMethod) return alert("Selecione uma forma de pagamento!");
+
     const btn = document.getElementById('btnSend'); btn.innerText = "AGENDANDO...";
     setupCalendar(n);
+
+    // Concatena Pagamento no Valor para o Admin ver
+    const valFinal = document.getElementById('totalVal').innerText + " (" + paymentMethod + ")";
+
     api('book', {
       rowIndex: selectedSlot.rowIndex,
       nome: n, telefone: t, servicos: servicos.join(', '),
-      valor: document.getElementById('totalVal').innerText
+      valor: valFinal
     }).then(() => {
       closeModal('modalForm');
       document.getElementById('resumoServico').innerText = servicos.join(', ');
       document.getElementById('resumoData').innerText = `${selectedSlot.dataFmt} às ${selectedSlot.hora}`;
+      document.getElementById('resumoPag').innerText = paymentMethod;
       openModal('modalSuccess');
     }).catch(() => { alert("Erro ao agendar."); btn.innerText = "TENTAR NOVAMENTE"; });
   }
@@ -248,13 +271,10 @@
     const start = new Date(`${selectedSlot.data}T${selectedSlot.hora}:00`);
     const end = new Date(start.getTime() + 60*60000); 
     const title = "Douglas Fraga | DF Barber";
-    const details = `Cliente: ${clientName} | Serviços: ${servicos.join(', ')}`;
+    const details = `Cliente: ${clientName} | Pagamento: ${paymentMethod}`;
     const loc = "DF Barber Studio";
     const fmtG = (d) => d.toISOString().replace(/-|:|\.\d\d\d/g,"");
-    
     document.getElementById('linkGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmtG(start)}/${fmtG(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(loc)}`;
-    document.getElementById('linkOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${start.toISOString()}&enddt=${end.toISOString()}&subject=${encodeURIComponent(title)}&body=${encodeURIComponent(details)}&location=${encodeURIComponent(loc)}`;
-    
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:${document.URL}\nDTSTART:${fmtG(start)}\nDTEND:${fmtG(end)}\nSUMMARY:${title}\nDESCRIPTION:${details}\nLOCATION:${loc}\nEND:VEVENT\nEND:VCALENDAR`;
     document.getElementById('linkApple').href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
   }
