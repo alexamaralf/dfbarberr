@@ -7,12 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* MESMO ESTILO ANTERIOR (DARK & GOLD) */
     :root { --bg: #0a0a0a; --sidebar: #000; --gold: #cfa144; --text: #eee; --card: #141414; }
     body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
     
     .sidebar { width: 250px; background: var(--sidebar); border-right: 1px solid #222; padding: 20px; display: flex; flex-direction: column; }
-    .logo { color: var(--gold); font-family: 'Oswald', sans-serif; font-size: 1.8rem; text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #333; }
+    
+    .logo { 
+      color: var(--gold); font-family: 'Oswald', sans-serif; 
+      text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #333; 
+    }
+    .logo-owner { font-size: 0.8rem; letter-spacing: 1px; color: #888; font-weight: 300; margin-bottom: 5px; }
+    .logo-brand { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+
     .nav-btn { background: none; border: none; color: #666; padding: 15px; text-align: left; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; width: 100%; border-radius: 6px; font-weight: 500; margin-bottom: 5px; }
     .nav-btn:hover { color: white; background: #111; }
     .nav-btn.active { background: var(--gold); color: black; font-weight: bold; }
@@ -21,7 +27,6 @@
     h1 { font-family: 'Oswald', sans-serif; color: white; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px; }
     .card { background: var(--card); padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #222; }
 
-    /* LAYOUT AGENDA */
     .agenda-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #222; align-items: center; background: #0f0f0f; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid transparent; }
     .agenda-item.booked { border-left-color: var(--gold); background: #181818; }
     .time-box { font-family: 'Oswald'; font-size: 1.5rem; color: white; min-width: 70px; text-align: center; line-height: 1; }
@@ -31,7 +36,6 @@
     .service-name { color: var(--gold); font-size: 0.85rem; }
     .contact-info { color: #888; font-size: 0.8rem; margin-top: 4px; display: flex; gap: 15px; }
 
-    /* BOTÕES */
     .actions-box { display: flex; gap: 8px; }
     .btn-icon { width: 35px; height: 35px; border-radius: 4px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-del { background: rgba(211, 47, 47, 0.1); color: #d32f2f; border: 1px solid #d32f2f; }
@@ -43,7 +47,6 @@
     button.btn-sec { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-right: 5px; }
     button.btn-sec:hover { background: rgba(207, 161, 68, 0.1); }
 
-    /* INPUTS & MODALS */
     input, select { background: #000; border: 1px solid #333; color: white; padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 4px; }
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 1500; justify-content: center; align-items: center; }
     .modal-box { background: #141414; padding: 30px; border-radius: 8px; width: 350px; border: 1px solid #333; }
@@ -57,7 +60,8 @@
     #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: #000; z-index: 999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
     .view { display: none; animation: fadeIn 0.3s; }
     .view.active { display: block; }
-    @keyframes fadeIn { from {opacity:0} to {opacity:1} }
+    
+    .sidebar-footer { margin-top: auto; border-top: 1px solid #222; padding-top: 15px; font-size: 0.65rem; color: #444; text-align: center; }
   </style>
 </head>
 <body>
@@ -82,11 +86,18 @@
 </div>
 
 <div class="sidebar">
-  <div class="logo">DF ADMIN</div>
+  <div class="logo">
+    <div class="logo-owner">Douglas Fraga</div>
+    <div class="logo-brand">DF ADMIN</div>
+  </div>
   <button class="nav-btn active" onclick="show('agenda')"><i class="fas fa-calendar-alt"></i> Agenda</button>
   <button class="nav-btn" onclick="show('servicos')"><i class="fas fa-cut"></i> Serviços</button>
   <button class="nav-btn" onclick="show('colabs')"><i class="fas fa-user-tie"></i> Barbeiros</button>
   <button class="nav-btn" onclick="show('clientes')"><i class="fas fa-users"></i> Clientes</button>
+  
+  <div class="sidebar-footer">
+    Criado por: Alex Amaral
+  </div>
 </div>
 
 <div class="main">
@@ -124,8 +135,7 @@
 </div>
 
 <script>
-  // ⚠️ ATUALIZE O LINK AQUI
-  const API = "https://script.google.com/macros/s/AKfycbzrrfcjb1vViVw42ppwAVgmeSq0qNhhzfuG5s1fCiNoDf7OIekz_DkDyZ1548BM4DE/exec"; 
+  const API = "https://script.google.com/macros/s/AKfycbyMM-PU7pKtaXQk5zML4BYj6ifHLpl2TyhX91lKwLbyOA3QUr8r_Uf3FSFKf9WhD_E/exec"; 
   let TOKEN = "";
 
   document.getElementById('pass').addEventListener('keypress', function (e) { if (e.key === 'Enter') login(); });
@@ -161,20 +171,16 @@
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    
-    // Highlight logic
     const btns = document.querySelectorAll('.nav-btn');
     if(id=='agenda') btns[0].classList.add('active');
     if(id=='servicos') btns[1].classList.add('active');
     if(id=='colabs') btns[2].classList.add('active');
     if(id=='clientes') { btns[3].classList.add('active'); loadClientes(); }
-    
     if(id==='agenda') loadAgenda();
     if(id==='servicos') loadServicos();
     if(id==='colabs') loadBarbeiros();
   }
 
-  // --- MODALS DE CADASTRO ---
   function closeModal() { document.getElementById('modalInput').style.display='none'; }
   
   function openAddService() {
@@ -197,7 +203,6 @@
     document.getElementById('modalInput').style.display='flex';
   }
 
-  // 🔥 NOVA JANELA DE GERAR DIA EM LOTE
   function openBulkCreate() {
     document.getElementById('modalTitle').innerText = "Gerar Dia Inteiro";
     document.getElementById('modalContent').innerHTML = `
@@ -220,15 +225,10 @@
       const ini = document.getElementById('bulkStart').value;
       const fim = document.getElementById('bulkEnd').value;
       const int = document.getElementById('bulkInt').value;
-      
-      // Bloqueia botão para evitar duplo clique
       const btn = document.getElementById('modalConfirmBtn');
       btn.innerText = "Gerando..."; btn.disabled = true;
-
       req('addBulk', {data:d, inicio:ini, fim:fim, intervalo:int}).then((res)=>{ 
-        closeModal(); 
-        loadAgenda(); 
-        showToast(res || "Horários gerados!"); 
+        closeModal(); loadAgenda(); showToast(res || "Horários gerados!"); 
       }).finally(()=>{ btn.innerText = "Salvar"; btn.disabled = false; });
     };
     document.getElementById('modalInput').style.display='flex';
@@ -244,7 +244,6 @@
     document.getElementById('modalInput').style.display='flex';
   }
 
-  // --- LISTAS ---
   function loadAgenda() {
     const d = document.getElementById('filtroData').value;
     document.getElementById('agenda-list').innerHTML = '<div style="color:#666;text-align:center">Atualizando...</div>';
